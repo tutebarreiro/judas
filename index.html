@@ -58,6 +58,32 @@ h2 {
   box-shadow: 0 0 20px rgba(212,175,55,0.1);
 }
 
+.stepper {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:#1e1e1e;
+  border-radius:14px;
+  padding:10px;
+  margin:10px 0;
+}
+
+.stepper button {
+  width:40px;
+  height:40px;
+  border-radius:10px;
+  background:#2a2a2a;
+  color:white;
+  font-size:22px;
+  border:none;
+}
+
+.stepper span {
+  font-size:20px;
+  font-weight:bold;
+  color:var(--gold);
+}
+  
 /* INPUT */
 input {
   width: 100%;
@@ -343,7 +369,23 @@ function setup() {
         Cantidad de jugadores
       </h4>
 
-      <input id="players" type="number" placeholder="" oninput="updateReco()">
+      <p id="reco" class="center">(Mínimo 3 jugadores)</p>
+
+      <h4 style="display:flex; align-items:center; gap:8px;">
+        <img src="iconos/impostor.png" style="width:30px;">
+        Cantidad de impostores
+      </h4>
+
+      <h4 style="display:flex; align-items:center; gap:8px;">
+        <img src="iconos/jugadores-dorado.png" style="width:40px;">
+        Cantidad de jugadores
+      </h4>
+
+      <div class="stepper">
+        <button onclick="changePlayers(-1)">−</button>
+        <span id="players">3</span>
+        <button onclick="changePlayers(1)">+</button>
+      </div>
 
       <p id="reco" class="center">(Mínimo 3 jugadores)</p>
 
@@ -352,7 +394,11 @@ function setup() {
         Cantidad de impostores
       </h4>
 
-      <input id="impostors" type="number" placeholder="">
+      <div class="stepper">
+        <button onclick="changeImpostors(-1)">−</button>
+        <span id="impostors">1</span>
+        <button onclick="changeImpostors(1)">+</button>
+      </div>
 
       <label class="switch-row">
         <div style="display:flex; flex-direction:column;">
@@ -380,24 +426,44 @@ function setup() {
 }
 
 // ---------- RECOMENDACIÓN ----------
-function updateReco() {
-  const n = +document.getElementById("players").value;
-  const reco = document.getElementById("reco");
+let autoImpostors = true;
 
-  if (!n || n < 3) {
-    reco.textContent = "Ingresa al menos 3 jugadores";
-    return;
+function changePlayers(delta) {
+  let el = document.getElementById("players");
+  let value = parseInt(el.textContent);
+
+  value += delta;
+
+  if (value < 3) value = 3;
+  if (value > 20) value = 20;
+
+  el.textContent = value;
+
+  if (autoImpostors) {
+    let imp = value <= 5 ? 1 : value <= 9 ? 2 : 3;
+    document.getElementById("impostors").textContent = imp;
   }
+}
 
-  let imp = n <= 6 ? 1 : n <= 9 ? 2 : 3;
+function changeImpostors(delta) {
+  let el = document.getElementById("impostors");
+  let players = parseInt(document.getElementById("players").textContent);
+  let value = parseInt(el.textContent);
 
-  reco.textContent = `Recomendado para ${n} jugadores: ${imp} impostor${imp > 1 ? "es" : ""}`;
+  value += delta;
+
+  if (value < 1) value = 1;
+  if (value >= players) value = players - 1;
+
+  el.textContent = value;
+
+  autoImpostors = false;
 }
 
 // ---------- NOMBRES ----------
 function names() {
-  const n = +document.getElementById("players").value;
-  const imp = +document.getElementById("impostors").value;
+  const n = +document.getElementById("players").textContent;
+  const imp = +document.getElementById("impostors").textContent;
 
   const discipleEnabled = document.getElementById("enableDisciple").checked;
   gameState.enableDisciple = discipleEnabled;
