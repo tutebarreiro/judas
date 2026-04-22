@@ -61,13 +61,14 @@ h2 {
 /* INPUT */
 input {
   width: 100%;
-  padding: 14px;
-  margin: 8px 0;
+  height: 44px;        /* 👈 controla la altura */
+  padding: 0 14px;     /* 👈 elimina altura extra */
+  margin: 6px 0;       /* 👈 opcional: menos separación */
   border-radius: 10px;
   border: none;
   background: #1e1e1e;
   color: white;
-  font-size: 16px;
+  font-size: 15px;
 }
 
 /* BOTÓN */
@@ -456,7 +457,7 @@ function names() {
           border-radius:14px;
         ">
 
-          <img src="iconos/jugador.png" style="width:18px; opacity:0.6;">
+          <img src="iconos/jugador.png" style="width:38px; opacity:0.6;">
 
           <input 
             id="p${i}" 
