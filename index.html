@@ -372,13 +372,17 @@ function setup() {
         Cantidad de jugadores
       </h4>
 
-      <button onclick="changePlayers(-1)">
-        <img src="iconos/quitar.png" style="width:18px;">
-      </button>
+      <div class="stepper">
+        <button onclick="changePlayers(-1)">
+          <img src="iconos/quitar.png" style="width:18px;">
+        </button>
 
-      <button onclick="changePlayers(1)">
-        <img src="iconos/agregar.png" style="width:18px;">
-      </button>
+        <span id="players">5</span>
+
+        <button onclick="changePlayers(1)">
+          <img src="iconos/agregar.png" style="width:18px;">
+        </button>
+      </div>
 
       <p id="reco" class="center">(Mínimo 3 jugadores)</p>
 
@@ -387,13 +391,17 @@ function setup() {
         Cantidad de impostores
       </h4>
 
-      <button onclick="changeImpostors(-1)">
-        <img src="iconos/quitar.png" style="width:18px;">
-      </button>
+      <div class="stepper">
+        <button onclick="changeImpostors(-1)">
+          <img src="iconos/quitar.png" style="width:18px;">
+        </button>
 
-      <button onclick="changeImpostors(1)">
-        <img src="iconos/agregar.png" style="width:18px;">
-      </button>
+        <span id="impostors">1</span>
+
+        <button onclick="changeImpostors(1)">
+          <img src="iconos/agregar.png" style="width:18px;">
+        </button>
+      </div>
 
       <label class="switch-row">
         <div style="display:flex; flex-direction:column;">
