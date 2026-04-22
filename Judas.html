@@ -298,8 +298,15 @@ function menu() {
   render(`
     <h1>Judas</h1>
     <div class="card">
-      <button onclick="setup()">Nueva partida</button>
-      <button onclick="modes()">Modos de juego</button>
+      <button onclick="setup()" style="display:flex; align-items:center; justify-content:center; gap:10px;">
+        <img src="iconos/nueva-partida.png" style="width:20px;">
+        Nueva partida
+      </button>
+
+      <button onclick="modes()" style="display:flex; align-items:center; justify-content:center; gap:10px;">
+        <img src="iconos/jugadores.png" style="width:20px;">
+        Modos de juego
+      </button>
     </div>
   `);
 }
