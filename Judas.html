@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Judas</title>
+
+<style>
+:root {
+  --bg: #0a0a0a;
+  --card: #141414;
+  --gold: #d4af37;
+  --text: #f5f5f5;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+/* CONTENEDOR */
+#app {
+  max-width: 420px;
+  margin: auto;
+  padding: 20px 16px;
+}
+
+/* TITULOS */
+h1 {
+  text-align: center;
+  color: var(--gold);
+  font-size: 30px;
+}
+
+h2 {
+  font-size: 22px;
+}
+
+/* CARD */
+.card {
+  background: var(--card);
+  border-radius: 18px;
+  padding: 20px;
+  margin-top: 16px;
+  box-shadow: 0 0 20px rgba(212,175,55,0.1);
+}
+
+/* INPUT */
+input {
+  width: 100%;
+  padding: 14px;
+  margin: 8px 0;
+  border-radius: 10px;
+  border: none;
+  background: #1e1e1e;
+  color: white;
+  font-size: 16px;
+}
+
+/* BOTÓN */
+button {
+  width: 100%;
+  padding: 16px;
+  margin-top: 14px;
+  border-radius: 12px;
+  border: none;
+  background: var(--gold);
+  color: black;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* LISTAS */
+.player {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #1e1e1e;
+  padding: 14px;
+  border-radius: 10px;
+  margin: 6px 0;
+}
+
+.player input {
+  width: 18px;
+  height: 18px;
+}
+
+/* TEXTO */
+.big-text {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.category {
+  text-align: center;
+  font-size: 18px;
+  color: var(--gold);
+}
+
+/* SPLASH */
+.splash {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo {
+  width: 120px;
+  height: 120px;
+  border-radius: 20px;
+  background: var(--gold);
+}
+
+/* ANIMACIÓN */
+.fade {
+  animation: fade 0.3s ease;
+}
+
+@keyframes fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes zoomFade {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.7);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+/* FILA */
+.switch-row {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:14px;
+}
+
+/* SWITCH BASE */
+.switch {
+  position:relative;
+  width:52px;
+  height:30px;
+}
+
+.switch input {
+  appearance: none;
+}
+
+/* OCULTAR INPUT */
+.switch input {
+  opacity:0;
+  width:0;
+  height:0;
+}
+
+/* FONDO */
+.slider {
+  position: absolute;
+  inset: 0;
+  background: #2c2c2e;
+  border-radius: 999px;
+  transition: 0.25s ease;
+}
+
+.slider::before {
+  content: "";
+  position: absolute;
+  height: 22px;
+  width: 22px;
+  left: 4px;
+  top: 4px;
+  background: white;
+  border-radius: 50%;
+  transition: 0.25s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+}
+
+/* HOVER (desktop) */
+.switch:hover .slider::before {
+  transform:scale(1.1);
+}
+
+/* ACTIVO */
+.switch input:checked + .slider {
+  background: #34c759;
+}
+
+.switch input:checked + .slider::before {
+  transform: translateX(22px);
+}
+
+
+/* CLICK (efecto presión) */
+.switch input:active + .slider::before {
+  transform: scale(0.95);
+}
+
+.switch input:checked + .slider::before {
+  transform: translateX(22px) scale(1.05);
+}
+
+/* LISTA TIPO WHATSAPP / IOS */
+.wa-player{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:#1e1e1e;
+  padding:14px 16px;
+  border-radius:14px;
+  margin:8px 0;
+  cursor:pointer;
+  transition:0.2s ease;
+}
+
+.wa-player:active{
+  transform:scale(0.98);
+}
+
+/* SWITCH BASE */
+.wa-switch{
+  width:44px;
+  height:26px;
+  background:#3a3a3c;
+  border-radius:999px;
+  position:relative;
+  transition:0.25s ease;
+}
+
+/* BOLA */
+.wa-knob{
+  width:20px;
+  height:20px;
+  background:white;
+  border-radius:50%;
+  position:absolute;
+  top:3px;
+  left:3px;
+  transition:0.25s ease;
+  box-shadow:0 2px 6px rgba(0,0,0,0.3);
+}
+
+/* ESTADO ACTIVO */
+.wa-player.selected .wa-switch{
+  background:#34c759;
+}
+
+.wa-player.selected .wa-knob{
+  transform:translateX(18px);
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="app"></div>
+
+<script>
+let gameState = {};
+
+const db = {
+  "👤​ Personajes": ["David","Saúl","Moisés","Pedro"],
+  "🏛️​ Lugares": ["Jerusalén","Belén","Egipto"],
+  "📜 Objetos": ["Arca","Hondera","Tablas"],
+  "⚡​ Eventos": ["Diluvio","Éxodo","Crucifixión"]
+};
+
+function render(html) {
+  document.getElementById("app").innerHTML = `<div class="fade">${html}</div>`;
+}
+
+// ---------- SPLASH ----------
+function splash() {
+  render(`
+    <div class="splash">
+      <div class="logo"></div>
+    </div>
+  `);
+
+  setTimeout(menu, 2000);
+}
+
+// ---------- MENU ----------
+function menu() {
+  render(`
+    <h1>Judas</h1>
+    <div class="card">
+      <button onclick="setup()">Nueva partida</button>
+      <button onclick="modes()">Modos de juego</button>
+    </div>
+  `);
+}
+
+function modes() {
+  render(`
+    <h1>Modos de juego</h1>
+    <div class="card">
+      <p>Próximamente...</p>
+      <button onclick="menu()">Volver</button>
+    </div>
+  `);
+}
+
+// ---------- SETUP ----------
+function setup() {
+  render(`
+    <h1>Judas</h1>
+    <div class="card">
+      <h2>Nueva Partida</h2>
+
+      <h4>👥​ Cantidad de jugadores</h4>
+
+      <input id="players" type="number" placeholder="" oninput="updateReco()">
+
+      <p id="reco" class="center">(Mínimo 3 jugadores)</p>
+
+      <h4>🕵️‍♂️​ Cantidad de impostores</h4>
+
+      <input id="impostors" type="number" placeholder="">
+
+      <label class="switch-row">
+        <div style="display:flex; flex-direction:column;">
+          <span>Rol Discípulo</span>
+
+          <!-- 👇 DESCRIPCIÓN -->
+          <span style="
+            font-size:12px;
+            opacity:0.6;
+            margin-top:2px;
+          ">
+            Un jugador tendrá voto doble
+          </span>
+        </div>
+
+        <label class="switch">
+          <input id="enableDisciple" type="checkbox">
+          <span class="slider"></span>
+        </label>
+      </label>
+
+      <button onclick="names()">Continuar</button>
+    </div>
+  `);
+}
+
+// ---------- RECOMENDACIÓN ----------
+function updateReco() {
+  const n = +document.getElementById("players").value;
+  const reco = document.getElementById("reco");
+
+  if (!n || n < 3) {
+    reco.textContent = "Ingresa al menos 3 jugadores";
+    return;
+  }
+
+  let imp = n <= 6 ? 1 : n <= 9 ? 2 : 3;
+
+  reco.textContent = `Recomendado para ${n} jugadores: ${imp} impostor${imp > 1 ? "es" : ""}`;
+}
+
+// ---------- NOMBRES ----------
+function names() {
+  const n = +document.getElementById("players").value;
+  const imp = +document.getElementById("impostors").value;
+
+  const discipleEnabled = document.getElementById("enableDisciple").checked;
+  gameState.enableDisciple = discipleEnabled;
+
+  if (!n || n < 3) return alert("Ingresa al menos 3 jugadores");
+  if (!imp || imp < 1) return alert("Debe haber al menos 1 impostor");
+  if (imp >= n) return alert("Debe haber menos impostores que jugadores");
+
+  // 👇 GUARDAMOS ESTO
+  gameState.numImpostors = imp;
+
+  let html = `<h1>Judas</h1><div class="card"><h2>Jugadores</h2>`;
+
+  for (let i = 0; i < n; i++) {
+    html += `<input id="p${i}" placeholder="Jugador ${i+1}">`;
+  }
+
+  html += `<button onclick="startGame(${n})">Comenzar partida</button></div>`;
+  render(html);
+}
+
+// ---------- START ----------
+function startGame(n) {
+  let jugadores = [];
+
+  for (let i = 0; i < n; i++) {
+    let nombre = document.getElementById(`p${i}`).value.trim();
+    if (!nombre) return alert("Completa todos los nombres");
+    jugadores.push({ nombre, rol:"normal", activo:true });
+  }
+
+  const categorias = Object.keys(db);
+  const categoria = categorias[Math.floor(Math.random()*categorias.length)];
+  const palabra = db[categoria][Math.floor(Math.random()*db[categoria].length)];
+
+  let impostores = [];
+  let numImp = gameState.numImpostors || 1;
+
+  while (impostores.length < numImp) {
+    let r = Math.floor(Math.random()*n);
+    if (!impostores.includes(r)) {
+      jugadores[r].rol = "impostor";
+      impostores.push(r);
+    }
+  }
+
+  gameState = {
+    ...gameState,
+    jugadores,
+    palabra,
+    categoria,
+    ronda:1,
+    indexReveal:0
+  };
+
+  gameState.votes = [];
+  gameState.voterIndex = 0;
+
+  reveal();
+}
+
+// ---------- REVEAL ----------
+function reveal() {
+  let i = gameState.indexReveal;
+  let j = gameState.jugadores[i];
+
+  if (!j) {
+    if (gameState.enableDisciple) {
+      return pickDisciple();
+    }
+    return startRound();
+  }
+
+  const total = gameState.jugadores.length;
+
+  render(`
+    <h1>Judas</h1>
+    <!-- 🔥 BARRA DE PROGRESO -->
+    <div style="margin-bottom:10px;">
+  
+      <div style="
+        text-align:center;
+        font-size:14px;
+        opacity:0.7;
+        margin-bottom:10px;
+      ">
+        Jugador ${i+1} de ${total}
+      </div>
+
+      <div style="
+        width:100%;
+        height:6px;
+        background:#222;
+        border-radius:50px;
+        overflow:hidden;
+      ">
+        <div style="
+          width:${((i+1)/total)*100}%;
+          height:100%;
+          background:var(--gold);
+          transition:width 0.3s ease;
+        "></div>
+      </div>
+
+    </div>
+
+    
+
+    <div class="card" style="
+     position:relative;
+     min-height:200px;
+     text-align:center;
+     overflow:hidden;
+   ">
+
+     <!-- TURNO DE -->
+     <div style="
+       position:absolute;
+       top:16px;
+       left:0;
+       right:0;
+       letter-spacing:3px;
+       opacity:0.6;
+       font-size:20px;
+     ">
+       TURNO DE
+     </div>
+
+     <!-- NOMBRE (ANIMADO) -->
+     <div style="
+       position:absolute;
+       top:50%;
+       left:50%;
+       transform:translate(-50%, -50%) scale(0.8);
+       font-size:36px;
+       font-weight:bold;
+       color:var(--gold);
+       opacity:0;
+       animation: zoomFade 0.5s ease forwards;
+       text-shadow: 0 0 10px rgba(212,175,55,0.4);
+     ">
+       ${j.nombre}
+     </div>
+
+     <!-- TEXTO ABAJO -->
+     <div style="
+       position:absolute;
+       bottom:12px;
+       left:0;
+       right:0;
+       opacity:0.6;
+       font-size:13px;
+     ">
+       Pasa el celular a esta persona
+     </div>
+
+   </div>
+
+    <div id="revealBox" class="card" style="
+      margin-top:20px;
+      border:2px dashed var(--gold);
+      cursor:pointer;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+    " onclick="showWord()">
+
+      <div style="font-size:40px;">👁️</div>
+
+      <h2 style="color:var(--gold); margin:10px 0;">
+        Ver palabra
+      </h2>
+
+      <p style="opacity:0.7;">
+        Toca para revelar tu rol
+      </p>
+    </div>
+  `);
+}
+
+function showWord() {
+  let j = gameState.jugadores[gameState.indexReveal];
+  const box = document.getElementById("revealBox");
+
+  let content = "";
+  let warning = "";
+  let topBanner = "";
+  let companions = ""; // ✅ FIX CLAVE
+
+  if (j.rol === "impostor") {
+
+    const otrosImpostores = gameState.jugadores
+      .filter(x => x.rol === "impostor" && x.nombre !== j.nombre)
+      .map(x => x.nombre);
+
+    // 👇 BLOQUE SEPARADO DEL COMPAÑERO
+    if (otrosImpostores.length > 0) {
+      companions = `
+        <div class="card" style="
+          margin-top:12px;
+          border:2px solid var(--gold);
+          text-align:center;
+        ">
+          <div style="opacity:0.7;">🤝 Tu compañero impostor es</div>
+          <div style="margin-top:6px; font-weight:bold;">
+            ${otrosImpostores.join(", ")}
+          </div>
+        </div>
+      `;
+    }
+
+    topBanner = `
+      <div id="impostorBanner" style="
+        background:#8b0000;
+        color:white;
+        padding:10px;
+        border-radius:180px;
+        text-align:center;
+        font-weight:bold;
+        margin:30px;
+      ">
+        ⚠️ ERES EL IMPOSTOR
+      </div>
+    `;
+
+    content = `
+      <div style="
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        justify-content:center;
+      ">
+
+        <div style="
+          letter-spacing:2px;
+          opacity:0.6;
+          margin-bottom:10px;
+        ">
+          CATEGORÍA
+        </div>
+
+        <div style="
+          font-size:44px;
+          margin-bottom:6px;
+        ">
+          ${gameState.categoria.split(" ")[0]}
+        </div>
+
+        <div style="
+          font-size:18px;
+          color:var(--gold);
+        ">
+          ${gameState.categoria.replace(/^[^ ]+ /, "")}
+        </div>
+
+      </div>
+    `;
+
+    warning = `
+      <div style="
+        width:100%;
+        display:flex;
+        justify-content:center;
+        margin-top:12px;
+      ">
+        <p style="
+          max-width:260px;
+          text-align:center;
+          font-style:italic;
+          opacity:0.7;
+          font-size:14px;
+          line-height:1.4;
+        ">
+          No reveles que eres el impostor. Actúa como si conocieras la palabra.
+        </p>
+      </div>
+    `;
+  }
+
+  else if (j.rol === "discipulo") {
+    content = `
+      <div style="letter-spacing:2px; opacity:0.7;">LA PALABRA ES</div>
+
+      <div class="big-text" style="color:var(--gold); margin:10px 0;">
+        ${gameState.palabra}
+      </div>
+
+      <div style="letter-spacing:4px; opacity:0.7;">Categoría</div>
+      <div>${gameState.categoria}</div>
+
+      <p style="margin-top:15px;"><b>Discípulo (doble voto)</b></p>
+    `;
+  }
+
+  else {
+    content = `
+      <div style="letter-spacing:2px; opacity:0.7;">LA PALABRA ES</div>
+
+      <div class="big-text" style="color:var(--gold); margin:10px 0;">
+        ${gameState.palabra}
+      </div>
+
+      <div style="opacity:0.7;">Categoría</div>
+      <div>${gameState.categoria}</div>
+    `;
+  }
+
+  // 👇 Banner arriba
+  if (topBanner && !document.getElementById("impostorBanner")) {
+    box.insertAdjacentHTML("beforebegin", topBanner);
+  }
+
+  // 👇 Contenido carta
+  box.innerHTML = content;
+
+  box.style.border = j.rol === "impostor"
+    ? "2px solid #8b0000"
+    : "2px solid var(--gold)";
+
+  box.style.cursor = "default";
+  box.onclick = null;
+
+  // 👇 Todo lo de abajo (FIX botón + companions)
+  box.insertAdjacentHTML("afterend", `
+    ${companions}
+    ${warning}
+
+    <button onclick="nextReveal()" style="margin-top:20px;">
+      Continuar →
+    </button>
+  `);
+}
+
+function nextReveal() {
+  gameState.indexReveal++;
+  reveal();
+}
+
+function showDisciple() {
+  let d = gameState.disciple;
+
+  render(`
+    <h1>Judas</h1>
+
+    <div class="card" style="text-align:center;">
+      <h2 style="color:var(--gold);">Discípulo</h2>
+
+      <div style="font-size:52px; margin:20px 0;">
+        ${d.nombre}
+      </div>
+
+      <p style="opacity:0.7;">
+        Este jugador tiene voto doble
+      </p>
+
+      <button onclick="startRound()">
+        Continuar
+      </button>
+    </div>
+  `);
+}
+
+function pickDisciple() {
+  let candidatos = gameState.jugadores
+    .filter(j => j.activo); // solo vivos
+
+  let elegido = candidatos[Math.floor(Math.random() * candidatos.length)];
+
+  elegido.rol = "discipulo";
+
+  gameState.disciple = elegido;
+
+  render(`
+    <h1>Judas</h1>
+
+    <div class="card" style="text-align:center;">
+      <h2>ROL DISCÍPULO</h2>
+
+      <p style="opacity:0.7;">
+        Este jugador tendrá voto doble en las votaciones
+      </p>
+
+      <button onclick="showDisciple()">
+        Revelar
+      </button>
+    </div>
+  `);
+}
+
+// ---------- RONDA ----------
+function startRound() {
+  let activos = gameState.jugadores.filter(j=>j.activo);
+  let orden = [...activos].sort(()=>Math.random()-0.5);
+
+  let resultMsg = "";
+
+  if (gameState.lastVoteResult) {
+    resultMsg = `
+      <div class="card" style="border:2px solid var(--gold);">
+        <h3>Resultado de la votación</h3>
+
+        ${gameState.lastVoteResult.map(p => `
+          <div style="
+            margin:6px 0;
+            padding:10px;
+            border-radius:10px;
+            background:${p.rol === "impostor" ? "#2a0000" : "#1a1a1a"};
+            color:${p.rol === "impostor" ? "#ff5c5c" : "#fff"};
+          ">
+            ${p.nombre} — ${p.rol === "impostor" ? "IMPOSTOR" : "INOCENTE"}
+          </div>
+        `).join("")}
+      </div>
+    `;
+
+    gameState.lastVoteResult = null;
+  }
+
+  render(`
+    <h1>Judas</h1>
+    ${resultMsg}
+    <div class="card">
+      <h2>Ronda ${gameState.ronda}</h2>
+      <p style="text-align:center; opacity:0.6;">
+        Se eliminan ${gameState.jugadores.filter(j=>j.activo && j.rol==="impostor").length || 1} jugador(es)
+      </p>
+      ${orden.map(j=>`<div class="player">${j.nombre}</div>`).join("")}
+      <button onclick="vote()">Ir a votación</button>
+    </div>
+  `);
+}
+
+// ---------- VOTACIÓN ----------
+function getVoteCount() {
+  return gameState.jugadores.filter(j => j.activo && j.rol === "impostor").length || 1;
+}
+
+function vote() {
+  let activos = gameState.jugadores.filter(j => j.activo);
+  let voter = activos[gameState.voterIndex];
+
+  const N = getVoteCount();
+  let selected = [];
+
+  render(`
+    <h1>Judas</h1>
+
+    <div class="card">
+      <h2>Votación</h2>
+
+      <p style="text-align:center; opacity:0.7;">
+        Turno de <b>${voter.nombre}</b>
+      </p>
+
+      <p style="text-align:center; font-size:14px;">
+        Selecciona ${N} jugador${N > 1 ? "es" : ""}
+      </p>
+
+      ${activos.map(j => j.nombre !== voter.nombre ? `
+        <div class="wa-player" onclick="toggleVote('${j.nombre}', this)">
+          <span>${j.nombre}</span>
+
+          <div class="wa-switch">
+            <div class="wa-knob"></div>
+          </div>
+        </div>
+      ` : "").join("")}
+
+      <button onclick="confirmVote()">
+        Confirmar voto
+      </button>
+    </div>
+  `);
+
+  gameState.tempSelected = [];
+}
+
+function resolveVote() {
+  let conteo = {};
+
+  gameState.votes.forEach(v => {
+    conteo[v] = (conteo[v] || 0) + 1;
+  });
+
+  // guardamos conteo para mostrarlo
+  gameState.lastVoteCount = conteo;
+
+  // pasamos a pantalla de resultados (SIN eliminar aún)
+  showVoteResults();
+}
+
+function showVoteResults() {
+  let conteo = gameState.lastVoteCount || {};
+
+  let lista = Object.entries(conteo)
+    .sort((a,b) => b[1] - a[1]);
+
+  render(`
+    <h1>Judas</h1>
+
+    <div class="card">
+      <h2>Resultado de votación</h2>
+
+      ${lista.map(([nombre, votos]) => `
+        <div class="player" style="justify-content:space-between;">
+          <span>${nombre}</span>
+          <b>${votos} voto${votos !== 1 ? "s" : ""}</b>
+        </div>
+      `).join("")}
+
+      <button onclick="selectElimination()">
+        Seleccionar eliminados
+      </button>
+    </div>
+  `);
+}
+
+function selectElimination() {
+  let activos = gameState.jugadores.filter(j => j.activo);
+  let N = gameState.jugadores.filter(j => j.activo && j.rol === "impostor").length || 1;
+
+  gameState.toEliminate = [];
+
+  render(`
+    <h1>Judas</h1>
+
+    <div class="card">
+      <h2>Selecciona ${N} jugador${N > 1 ? "es" : ""} a eliminar</h2>
+
+      ${activos.map(j => `
+        <div class="wa-player" onclick="toggleEliminate('${j.nombre}', this)">
+          <span>${j.nombre}</span>
+
+          <div class="wa-switch">
+            <div class="wa-knob"></div>
+          </div>
+        </div>
+      `).join("")}
+
+      <button onclick="confirmElimination()">
+        Confirmar eliminación
+      </button>
+    </div>
+  `);
+}
+
+function toggleEliminate(name, el) {
+  let N = gameState.jugadores.filter(j => j.activo && j.rol === "impostor").length || 1;
+
+  let index = gameState.toEliminate.indexOf(name);
+
+  if (index >= 0) {
+    gameState.toEliminate.splice(index, 1);
+    el.classList.remove("selected");
+  } else {
+    if (gameState.toEliminate.length >= N) return;
+    gameState.toEliminate.push(name);
+    el.classList.add("selected");
+  }
+}
+
+function confirmElimination() {
+  let eliminados = gameState.toEliminate;
+
+  if (!eliminados || eliminados.length === 0) {
+    return alert("Selecciona jugadores");
+  }
+
+  // eliminar jugadores
+  eliminados.forEach(nombre => {
+    let j = gameState.jugadores.find(x => x.nombre === nombre);
+    if (j) j.activo = false;
+  });
+
+  // mostrar resultado con roles
+  render(`
+    <h1>Resultados</h1>
+
+    <div class="card">
+      <h2>Jugadores eliminados</h2>
+
+      ${eliminados.map(nombre => {
+        let j = gameState.jugadores.find(x => x.nombre === nombre);
+
+        return `
+          <div class="player" style="
+            justify-content:space-between;
+            background:${j.rol === "impostor" ? "#2a0000" : "#1a1a1a"};
+          ">
+            <span>${nombre}</span>
+            <b>${j.rol.toUpperCase()}</b>
+          </div>
+        `;
+      }).join("")}
+
+      <button onclick="endElimination()">
+        Continuar
+      </button>
+    </div>
+  `);
+}
+
+function endElimination() {
+  gameState.votes = [];
+  gameState.voterIndex = 0;
+  gameState.lastVoteCount = null;
+  gameState.toEliminate = [];
+
+  checkWin();
+}
+
+function eliminatePlayers() {
+  let conteo = gameState.lastVoteCount || {};
+
+  let ordenados = Object.entries(conteo)
+    .sort((a,b) => b[1] - a[1])
+    .map(x => x[0]);
+
+  let N = gameState.jugadores.filter(j => j.activo && j.rol === "impostor").length || 1;
+
+  let eliminados = ordenados.slice(0, N);
+
+  eliminados.forEach(nombre => {
+    let j = gameState.jugadores.find(x => x.nombre === nombre);
+    if (j) j.activo = false;
+  });
+
+  gameState.votes = [];
+  gameState.voterIndex = 0;
+  gameState.lastVoteCount = null;
+
+  checkWin();
+}
+
+function toggleVote(name, el) {
+  let N = gameState.jugadores.filter(j => j.activo && j.rol === "impostor").length || 1;
+
+  let index = gameState.tempSelected.indexOf(name);
+
+  if (index >= 0) {
+    gameState.tempSelected.splice(index, 1);
+    el.classList.remove("selected");
+  } else {
+    if (gameState.tempSelected.length >= N) return;
+    gameState.tempSelected.push(name);
+    el.classList.add("selected");
+  }
+}
+
+function confirmVote() {
+  let activos = gameState.jugadores.filter(j => j.activo);
+  let voter = activos[gameState.voterIndex];
+
+  const N = getVoteCount();
+
+  if (gameState.tempSelected.length !== N) {
+    const N = getVoteCount();
+    return alert(`Debes seleccionar ${N} jugadores`);
+  }
+
+  gameState.tempSelected.forEach(name => {
+    gameState.votes.push(name);
+  });
+
+  gameState.voterIndex++;
+
+  if (gameState.voterIndex >= activos.length) {
+    return resolveVote();
+  }
+
+  vote();
+}
+
+// ---------- FIN ----------
+function checkWin() {
+  let activos = gameState.jugadores.filter(j=>j.activo);
+  let impostores = activos.filter(j=>j.rol==="impostor");
+  let normales = activos.filter(j=>j.rol!=="impostor");
+
+  if (impostores.length === 0) {
+    render(`<div class="card"><h2>GANAN LOS INOCENTES</h2><button onclick="menu()">Inicio</button></div>`);
+    return;
+  }
+
+  if (normales.length === 1) {
+    render(`<div class="card"><h2>GANAN LOS IMPOSTORES</h2><button onclick="menu()">Inicio</button></div>`);
+    return;
+  }
+
+  nextRound();
+}
+
+function nextRound() {
+  gameState.ronda++;
+  startRound();
+}
+
+// INIT
+splash();
+</script>
+
+</body>
+</html>
