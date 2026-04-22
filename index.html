@@ -369,18 +369,6 @@ function setup() {
         Cantidad de jugadores
       </h4>
 
-      <p id="reco" class="center">(Mínimo 3 jugadores)</p>
-
-      <h4 style="display:flex; align-items:center; gap:8px;">
-        <img src="iconos/impostor.png" style="width:30px;">
-        Cantidad de impostores
-      </h4>
-
-      <h4 style="display:flex; align-items:center; gap:8px;">
-        <img src="iconos/jugadores-dorado.png" style="width:40px;">
-        Cantidad de jugadores
-      </h4>
-
       <div class="stepper">
         <button onclick="changePlayers(-1)">−</button>
         <span id="players">3</span>
@@ -426,6 +414,20 @@ function setup() {
 }
 
 // ---------- RECOMENDACIÓN ----------
+function updateReco() {
+  const n = +document.getElementById("players").value;
+  const reco = document.getElementById("reco");
+
+  if (!n || n < 3) {
+    reco.textContent = "Ingresa al menos 3 jugadores";
+    return;
+  }
+
+  let imp = n <= 6 ? 1 : n <= 9 ? 2 : 3;
+
+  reco.textContent = `Recomendado para ${n} jugadores: ${imp} impostor${imp > 1 ? "es" : ""}`;
+}
+
 let autoImpostors = true;
 
 function changePlayers(delta) {
