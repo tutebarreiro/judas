@@ -394,7 +394,7 @@ function updateReco() {
 }
 
 // ---------- NOMBRES ----------
-function names() {
+ffunction names() {
   const n = +document.getElementById("players").value;
   const imp = +document.getElementById("impostors").value;
 
@@ -405,16 +405,102 @@ function names() {
   if (!imp || imp < 1) return alert("Debe haber al menos 1 impostor");
   if (imp >= n) return alert("Debe haber menos impostores que jugadores");
 
-  // 👇 GUARDAMOS ESTO
   gameState.numImpostors = imp;
 
-  let html = `<h1>Judas</h1><div class="card"><h2>Jugadores</h2>`;
+  let html = `
+    <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+      <button onclick="setup()" style="
+        width:40px;
+        height:40px;
+        border-radius:12px;
+        background:#1e1e1e;
+        color:white;
+        font-size:20px;
+      ">←</button>
+
+      <h2 style="margin:0;">Nombres</h2>
+    </div>
+
+    <p style="text-align:center; opacity:0.6; margin-bottom:20px;">
+      Ingresa el nombre de cada jugador
+    </p>
+  `;
 
   for (let i = 0; i < n; i++) {
-    html += `<input id="p${i}" placeholder="Jugador ${i+1}">`;
+    html += `
+      <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+
+        <!-- NUMERO -->
+        <div style="
+          width:36px;
+          height:36px;
+          border-radius:50%;
+          background:#1e1e1e;
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          color:var(--gold);
+          font-weight:bold;
+        ">
+          ${i + 1}
+        </div>
+
+        <!-- INPUT ESTILO APP -->
+        <div style="
+          flex:1;
+          display:flex;
+          align-items:center;
+          gap:10px;
+          background:#1e1e1e;
+          padding:14px;
+          border-radius:14px;
+        ">
+
+          <img src="iconos/jugador.png" style="width:18px; opacity:0.6;">
+
+          <input 
+            id="p${i}" 
+            placeholder="Jugador ${i+1}"
+            style="
+              background:transparent;
+              border:none;
+              outline:none;
+              color:white;
+              width:100%;
+              font-size:16px;
+            "
+          >
+        </div>
+      </div>
+    `;
   }
 
-  html += `<button onclick="startGame(${n})">Comenzar partida</button></div>`;
+  html += `
+    <!-- INFO BOX -->
+    <div style="
+      background:#141414;
+      padding:14px;
+      border-radius:14px;
+      margin-top:20px;
+      border-left:4px solid var(--gold);
+      opacity:0.8;
+      font-size:14px;
+    ">
+      Los nombres se usarán durante todo el juego.
+      Asegúrate de que sean claros para todos.
+    </div>
+
+    <!-- BOTON GRANDE -->
+    <button onclick="startGame(${n})" style="
+      margin-top:30px;
+      border-radius:20px;
+      font-size:18px;
+      padding:18px;
+    ">
+      Comenzar partida →
+    </button>
+  `;
+
   render(html);
 }
 
