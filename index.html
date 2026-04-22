@@ -69,14 +69,15 @@ h2 {
 }
 
 .stepper {
-  display:flex;
+  display:grid;
+  grid-template-columns: 50px 1fr 50px; /* botones fijos + centro */
   align-items:center;
-  justify-content:space-between;
+
   background:#1e1e1e;
   border-radius:14px;
 
-  padding:0 10px;   /* 🔥 solo horizontal */
-  height:80px;      /* 🔥 altura fija */
+  padding:0 10px;
+  height:60px;
 
   margin:10px 0;
 }
@@ -86,20 +87,16 @@ h2 {
   height:42px;
   border-radius:12px;
 
-  background: rgba(255,255,255,0.05); /* 🔥 glass effect */
+  display:grid;
+  place-items:center;
+
+  background: rgba(255,255,255,0.05);
   border: 1px solid rgba(255,255,255,0.08);
+}
 
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  padding:0;
-  line-height:0;
-
-  backdrop-filter: blur(6px); /* 👈 efecto iOS */
-  -webkit-backdrop-filter: blur(6px);
-
-  transition: all 0.15s ease;
+.stepper span {
+  text-align:center;
+  display:block;
 }
 
 .stepper button:hover {
@@ -115,7 +112,6 @@ h2 {
   display: block;   /* 🔥 elimina el espacio fantasma */
   width:18px;
   opacity:0.8;
-  transform: translateY(-5px); /* micro ajuste */
 }
 
 .stepper span {
