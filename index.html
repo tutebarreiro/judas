@@ -424,7 +424,7 @@ function setup() {
             opacity:0.6;
             margin-top:2px;
           ">
-            Un jugador tendrá voto doble
+            Un jugador tendrá el voto de desempate en caso de empate
           </span>
         </div>
 
@@ -874,7 +874,7 @@ function showWord() {
       <div style="letter-spacing:4px; opacity:0.7;">Categoría</div>
       <div>${gameState.categoria}</div>
 
-      <p style="margin-top:15px;"><b>Discípulo (doble voto)</b></p>
+      <p style="margin-top:15px;"><b>Discípulo (voto de desempate)</b></p>
     `;
   }
 
@@ -936,7 +936,7 @@ function showDisciple() {
       </div>
 
       <p style="opacity:0.7;">
-        Este jugador tiene voto doble
+        Este jugador tiene voto de desempate en caso de empate
       </p>
 
       <button onclick="startRound()">
