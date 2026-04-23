@@ -819,15 +819,22 @@ function showWord() {
 
     topBanner = `
       <div id="impostorBanner" style="
-        background:#8b0000;
-        color:white;
-        padding:10px;
-        border-radius:180px;
-        text-align:center;
-        font-weight:bold;
-        margin:30px;
+        background: #4a0000; /* Un rojo más oscuro y elegante */
+        color: white;
+        padding: 12px;
+        border-radius: 12px;
+        text-align: center;
+        font-weight: bold;
+        margin: 20px 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        border: 1px solid #8b0000;
       ">
-        ⚠️ ERES EL IMPOSTOR
+        <img src="iconos/impostor-blanco.png" style="width: 24px; height: auto;">
+        
+        <span style="letter-spacing: 1px;">ERES EL IMPOSTOR</span>
       </div>
     `;
 
