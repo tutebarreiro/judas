@@ -132,7 +132,7 @@ h2 {
 /* INPUT */
 input {
   width: 100%;
-  height: 44px;        /* 👈 controla la altura */
+  /* height: 44px;        /* 👈 controla la altura */
   padding: 0 14px;     /* 👈 elimina altura extra */
   margin: 6px 0;       /* 👈 opcional: menos separación */
   border-radius: 10px;
@@ -558,12 +558,11 @@ function names() {
 
   for (let i = 0; i < n; i++) {
     html += `
-      <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+      <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
 
-        <!-- NUMERO -->
         <div style="
-          width:36px;
-          height:36px;
+          width:30px; /* Reducido de 36px */
+          height:30px;
           border-radius:50%;
           background:#1e1e1e;
           display:flex;
@@ -571,24 +570,22 @@ function names() {
           justify-content:center;
           color:var(--gold);
           font-weight:bold;
+          font-size:14px;
         ">
           ${i + 1}
         </div>
 
-        <!-- INPUT ESTILO APP -->
         <div style="
           flex:1;
           display:flex;
           align-items:center;
           gap:10px;
           background:#1e1e1e;
-          padding:14px;
-          border-radius:14px;
+          padding:8px 12px; /* Reducido de 14px */
+          border-radius:10px;
         ">
 
-          <img src="iconos/jugador.png" style="width:38px; opacity:0.6;">
-
-          <input 
+          <img src="iconos/jugador.png" style="width:24px; opacity:0.6;"> <input 
             id="p${i}" 
             placeholder="Jugador ${i+1}"
             style="
@@ -597,14 +594,16 @@ function names() {
               outline:none;
               color:white;
               width:100%;
-              font-size:16px;
+              font-size:15px;
+              height:24px; /* Altura controlada */
+              padding:0;
+              margin:0;
             "
           >
         </div>
       </div>
     `;
-  }
-
+}
   html += `
     <!-- INFO BOX -->
     <div style="
