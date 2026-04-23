@@ -426,6 +426,25 @@ function render(html) {
   document.getElementById("app").innerHTML = `<div class="fade">${html}</div>`;
 }
 
+function backButton(action = "menu()") {
+  return `
+    <div style="margin-bottom:10px;">
+      <button onclick="${action}" style="
+        width:40px;
+        height:40px;
+        border-radius:12px;
+        background:#1e1e1e;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        padding:0;
+      ">
+        <img src="iconos/back.png" style="width:20px;">
+      </button>
+    </div>
+  `;
+}
+
 // ---------- SPLASH ----------
 function splash() {
   document.getElementById("app").style.padding = "0"; // 👈 clave
@@ -444,18 +463,37 @@ function splash() {
   }, 2000);
 }
 
-function header() {
+function header(showBack = false, backFn = "menu()") {
   return `
     <div style="
       display:flex;
       align-items:center;
       justify-content:center;
-      margin-bottom:5px;
+      position:relative;
+      margin-bottom:20px;
     ">
+
+      ${showBack ? `
+        <button onclick="${backFn}" style="
+          position:absolute;
+          left:0;
+          width:40px;
+          height:40px;
+          border-radius:12px;
+          background:#1e1e1e;
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          padding:0;
+        ">
+          <img src="iconos/back.png" style="width:20px;">
+        </button>
+      ` : ""}
+
       <img src="iconos/logo.png" style="
-        width:120px;
+        width:70px;
         height:auto;
-        filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5));
+        filter: drop-shadow(0 6px 14px rgba(0,0,0,0.6));
       ">
     </div>
   `;
@@ -590,6 +628,7 @@ function modes() {
 // ---------- SETUP ----------
 function setup() {
   render(`
+    ${backButton("menu()")}
     ${header()}
     <div class="card">
       <h2>Nueva Partida</h2>
@@ -719,6 +758,9 @@ function names() {
   gameState.numImpostors = imp;
 
   let html = `
+    ${backButton("setup()")}
+
+    ${header()}
     <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
       <button onclick="setup()" style="
         width:40px;
