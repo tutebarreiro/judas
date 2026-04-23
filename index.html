@@ -470,7 +470,7 @@ function header() {
 // ---------- MENU ----------
 function menu() {
   render(`
-    <h1>Judas</h1>
+    ${header()}
     <div class="card">
       <button onclick="setup()" style="display:flex; align-items:center; justify-content:center; gap:10px; font-size:20px;">
         <img src="iconos/nueva-partida.png" style="width:35px;">
@@ -597,7 +597,7 @@ function modes() {
 // ---------- SETUP ----------
 function setup() {
   render(`
-    <h1>Judas</h1>
+    ${header()}
     <div class="card">
       <h2>Nueva Partida</h2>
 
@@ -880,7 +880,7 @@ function reveal() {
   const total = gameState.jugadores.length;
 
   render(`
-    <h1>Judas</h1>
+    ${header()}
     <!-- 🔥 BARRA DE PROGRESO -->
     <div style="margin-bottom:10px;">
   
@@ -1142,7 +1142,7 @@ function showDisciple() {
   let d = gameState.disciple;
 
   render(`
-    <h1>Judas</h1>
+    ${header()}
 
     <div class="card" style="text-align:center;">
       <h2 style="color:var(--gold);">Discípulo</h2>
@@ -1173,7 +1173,7 @@ function pickDisciple() {
   gameState.disciple = elegido;
 
   render(`
-    <h1>Judas</h1>
+    ${header()}
 
     <div class="card" style="text-align:center;">
       <h2>ROL DISCÍPULO</h2>
@@ -1255,7 +1255,7 @@ function vote() {
   let selected = [];
 
   render(`
-    <h1>Judas</h1>
+    ${header()}
 
     <div class="card">
       <h2>Votación</h2>
@@ -1308,7 +1308,7 @@ function showVoteResults() {
     .sort((a,b) => b[1] - a[1]);
 
   render(`
-    <h1>Judas</h1>
+    ${header()}
 
     <div class="card">
       <h2>Resultado de votación</h2>
@@ -1334,7 +1334,7 @@ function selectElimination() {
   gameState.toEliminate = [];
 
   render(`
-    <h1>Judas</h1>
+    ${header()}
 
     <div class="card">
       <h2>Selecciona ${N} jugador${N > 1 ? "es" : ""} a eliminar</h2>
