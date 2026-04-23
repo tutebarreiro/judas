@@ -463,18 +463,18 @@ function splash() {
   }, 2000);
 }
 
-function header(showBack = false, backFn = "menu()") {
+function header(action = null) {
   return `
     <div style="
+      position:relative;
       display:flex;
       align-items:center;
       justify-content:center;
-      position:relative;
-      margin-bottom:5px;
+      margin-bottom:20px;
     ">
 
-      ${showBack ? `
-        <button onclick="${backFn}" style="
+      ${action ? `
+        <button onclick="${action}" style="
           position:absolute;
           left:0;
           width:40px;
@@ -491,9 +491,8 @@ function header(showBack = false, backFn = "menu()") {
       ` : ""}
 
       <img src="iconos/logo.png" style="
-        width:120px;
+        width:70px;
         height:auto;
-        filter: drop-shadow(0 6px 14px rgba(0,0,0,0.6));
       ">
     </div>
   `;
