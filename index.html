@@ -408,9 +408,122 @@ function menu() {
 function modes() {
   render(`
     <h1>Modos de juego</h1>
-    <div class="card">
-      <p>Próximamente...</p>
-      <button onclick="menu()">Volver</button>
+
+    <div class="card" style="
+      background: linear-gradient(145deg, #1a1a1a, #111);
+      border: 1px solid rgba(212,175,55,0.15);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    ">
+
+      <!-- MODO 1 -->
+      <div style="
+        padding:18px;
+        border-radius:14px;
+        background:#1e1e1e;
+        margin-bottom:14px;
+        border:1px solid #2a2a2a;
+      ">
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">
+          <div style="
+            width:40px; height:40px;
+            border-radius:12px;
+            background:rgba(212,175,55,0.15);
+            display:flex; align-items:center; justify-content:center;
+            font-size:20px;
+          ">🗣️</div>
+
+          <div>
+            <div style="font-weight:bold; font-size:16px;">Clásico</div>
+            <div style="font-size:12px; opacity:0.6;">El modo tradicional</div>
+          </div>
+        </div>
+
+        <p style="margin:0; font-size:14px; opacity:0.75; line-height:1.4;">
+          Cada jugador dice una palabra relacionada con el tema en su turno.
+          Los impostores deben improvisar sin conocer la palabra real.
+        </p>
+      </div>
+
+      <!-- MODO 2 -->
+      <div style="
+        padding:18px;
+        border-radius:14px;
+        background:#1e1e1e;
+        margin-bottom:14px;
+        border:1px solid #2a2a2a;
+      ">
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">
+          <div style="
+            width:40px; height:40px;
+            border-radius:12px;
+            background:rgba(212,175,55,0.15);
+            display:flex; align-items:center; justify-content:center;
+            font-size:20px;
+          ">❓</div>
+
+          <div>
+            <div style="font-weight:bold; font-size:16px;">Pregunta en cadena</div>
+            <div style="font-size:12px; opacity:0.6;">Más estratégico</div>
+          </div>
+        </div>
+
+        <p style="margin:0; font-size:14px; opacity:0.75; line-height:1.4;">
+          Cada jugador hace una pregunta al siguiente jugador.
+          Las respuestas deben dar pistas sin revelar demasiado.
+        </p>
+      </div>
+
+      <!-- MODO 3 -->
+      <div style="
+        padding:18px;
+        border-radius:14px;
+        background:#1e1e1e;
+        border:1px solid #2a2a2a;
+      ">
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">
+          <div style="
+            width:40px; height:40px;
+            border-radius:12px;
+            background:rgba(212,175,55,0.15);
+            display:flex; align-items:center; justify-content:center;
+            font-size:20px;
+          ">🎯</div>
+
+          <div>
+            <div style="font-weight:bold; font-size:16px;">Pregunta libre</div>
+            <div style="font-size:12px; opacity:0.6;">Modo caótico</div>
+          </div>
+        </div>
+
+        <p style="margin:0; font-size:14px; opacity:0.75; line-height:1.4;">
+          Puedes hacer la pregunta a cualquier jugador.
+          Ideal para presionar y descubrir impostores rápidamente.
+        </p>
+      </div>
+
+      <!-- INFO EXTRA -->
+      <div style="
+        margin-top:20px;
+        padding:14px;
+        border-radius:12px;
+        background:rgba(212,175,55,0.08);
+        border:1px solid rgba(212,175,55,0.2);
+        font-size:13px;
+        opacity:0.8;
+        line-height:1.4;
+      ">
+        💡 Puedes usar cualquier modo en cada ronda para variar la experiencia del juego.
+      </div>
+
+      <button onclick="menu()" style="
+        margin-top:20px;
+        border-radius:16px;
+        padding:18px;
+        font-size:16px;
+      ">
+        ← Volver
+      </button>
+
     </div>
   `);
 }
