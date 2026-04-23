@@ -1064,98 +1064,12 @@ function showWord() {
 function nextReveal() {
   gameState.indexReveal++;
   
-  // Si ya pasaron todos los jugadores, mostramos el orden de la ronda
   if (gameState.indexReveal >= gameState.jugadores.length) {
-    return showTurnOrder(); 
+    // Al terminar de revelar, vamos directo a la pantalla de la ronda
+    return startRound(); 
   }
   
   reveal();
-}
-
-function showTurnOrder() {
-  // Barajamos a los jugadores para decidir quién habla primero
-  let activos = gameState.jugadores.filter(j => j.activo);
-  let ordenTurno = [...activos].sort(() => Math.random() - 0.5);
-
-  render(`
-    <div style="text-align:center; margin-bottom:20px;">
-      <span style="background:#1e1e1e; padding:6px 16px; border-radius:20px; color:var(--gold); font-size:14px; font-weight:bold;">
-        Ronda ${gameState.ronda}
-      </span>
-    </div>
-
-    <div style="text-align:center; margin-bottom:24px;">
-       <img src="iconos/random.png" style="width:40px;">
-       <h1 style="margin:10px 0 5px 0; color:white; font-size:28px;">Orden de participación</h1>
-       <p style="opacity:0.5; font-size:14px; margin:0; padding: 0 40px; line-height:1.4;">
-         Los jugadores dirán una palabra relacionada en este orden
-       </p>
-    </div>
-
-    <div class="card" style="padding:8px; background:#111; border: 1px solid #1a1a1a;">
-      ${ordenTurno.map((j, idx) => `
-        <div style="
-          display:flex; 
-          align-items:center; 
-          gap:15px; 
-          padding:14px 12px;
-          ${idx !== ordenTurno.length - 1 ? 'border-bottom:1px solid #1a1a1a;' : ''}
-        ">
-          <div style="
-            width:34px; 
-            height:34px; 
-            background:var(--gold); 
-            border-radius:50%; 
-            display:flex; 
-            align-items:center; 
-            justify-content:center; 
-            color:black; 
-            font-weight:bold;
-            font-size:16px;
-            flex-shrink:0;
-          ">
-            ${idx + 1}
-          </div>
-          
-          <img src="iconos/jugador.png" style="width:30px; opacity:0.3;">
-          
-          <span style="font-size:19px; font-weight:500; color:#eee;">${j.nombre}</span>
-        </div>
-      `).join("")}
-    </div>
-
-    <div class="card" style="background:#141414; border:none; box-shadow:none; padding: 15px 15px 15px 15px;">
-      
-      <div style="display:flex; gap:12px; margin-bottom:16px; align-items:flex-start;">
-        <div style="color:var(--gold); border:1px solid var(--gold); border-radius:50%; width:20px; height:20px; display:flex; align-items:center; justify-content:center; font-size:10px; flex-shrink:0; margin-top:2px;">✓</div>
-        <p style="margin:0; font-size:14px; opacity:0.7;">Cada jugador dice una palabra relacionada con el tema</p>
-      </div>
-
-      <div style="display:flex; gap:12px; margin-bottom:16px; align-items:flex-start;">
-        <div style="color:#ffcc00; border:1px solid #ffcc00; border-radius:50%; width:20px; height:20px; display:flex; align-items:center; justify-content:center; font-size:10px; flex-shrink:0; margin-top:2px;">!</div>
-        <p style="margin:0; font-size:14px; opacity:0.7;">Los impostores no saben la palabra exacta</p>
-      </div>
-
-      <div style="display:flex; gap:12px; align-items:flex-start;">
-        <div style="color:var(--gold); border:1px solid var(--gold); border-radius:50%; width:20px; height:20px; display:flex; align-items:center; justify-content:center; font-size:10px; flex-shrink:0; margin-top:2px;">✓</div>
-        <p style="margin:0; font-size:14px; opacity:0.7;">Al final, votan para eliminar a un sospechoso</p>
-      </div>
-
-    </div>
-
-    <button onclick="startRound()" style="
-      margin-top:10px; 
-      border-radius:18px; 
-      display:flex; 
-      align-items:center; 
-      justify-content:center; 
-      gap:12px;
-      padding:22px;
-      font-size:18px;
-    ">
-      Continuar a votación <span style="font-size:22px;">→</span>
-    </button>
-  `);
 }
 
 function showDisciple() {
@@ -1211,35 +1125,10 @@ function pickDisciple() {
 
 // ---------- RONDA ----------
 function startRound() {
-  // 1. Filtrar solo los jugadores que siguen en el juego
   let activos = gameState.jugadores.filter(j => j.activo);
-  
-  // 2. Barajar el orden para que no hablen siempre en el mismo orden
+  // Barajamos el orden para que cada ronda sea distinta
   let ordenTurno = [...activos].sort(() => Math.random() - 0.5);
 
-  // 3. Preparar el mensaje de resultados de la votación anterior (si existe)
-  let resultMsg = "";
-  if (gameState.lastVoteResult) {
-    resultMsg = `
-      <div class="card" style="border:2px solid var(--gold); margin-bottom:20px;">
-        <h3 style="margin-top:0;">Resultado de la votación</h3>
-        ${gameState.lastVoteResult.map(p => `
-          <div style="
-            margin:6px 0;
-            padding:10px;
-            border-radius:10px;
-            background:${p.rol === "impostor" ? "#2a0000" : "#1a1a1a"};
-            color:${p.rol === "impostor" ? "#ff5c5c" : "#fff"};
-          ">
-            ${p.nombre} — ${p.rol === "impostor" ? "IMPOSTOR" : "INOCENTE"}
-          </div>
-        `).join("")}
-      </div>
-    `;
-    gameState.lastVoteResult = null;
-  }
-
-  // 4. Renderizar la pantalla de Orden de Habla
   render(`
     <div style="text-align:center; margin-bottom:20px;">
       <span style="background:#1e1e1e; padding:6px 16px; border-radius:20px; color:var(--gold); font-size:14px; font-weight:bold;">
@@ -1247,25 +1136,17 @@ function startRound() {
       </span>
     </div>
 
-    ${resultMsg}
-
     <div style="text-align:center; margin-bottom:24px;">
        <img src="iconos/nueva-partida.png" style="width:40px; filter: brightness(0) saturate(100%) invert(79%) sepia(59%) saturate(417%) hue-rotate(357deg) brightness(91%) contrast(85%);">
-       <h1 style="margin:10px 0 5px 0; color:white; font-size:28px;">Orden de habla</h1>
+       <h1 style="margin:10px 0 5px 0; color:white; font-size:28px;">Orden de participación</h1>
        <p style="opacity:0.5; font-size:14px; margin:0; padding: 0 40px; line-height:1.4;">
-         Los jugadores vivos dirán una palabra en este orden
+         Los jugadores dirán una palabra relacionada en este orden
        </p>
     </div>
 
     <div class="card" style="padding:8px; background:#111; border: 1px solid #1a1a1a;">
       ${ordenTurno.map((j, idx) => `
-        <div style="
-          display:flex; 
-          align-items:center; 
-          gap:15px; 
-          padding:14px 12px;
-          ${idx !== ordenTurno.length - 1 ? 'border-bottom:1px solid #1a1a1a;' : ''}
-        ">
+        <div style="display:flex; align-items:center; gap:15px; padding:14px 12px; ${idx !== ordenTurno.length - 1 ? 'border-bottom:1px solid #1a1a1a;' : ''}">
           <div style="width:34px; height:34px; background:var(--gold); border-radius:50%; display:flex; align-items:center; justify-content:center; color:black; font-weight:bold; font-size:16px; flex-shrink:0;">
             ${idx + 1}
           </div>
