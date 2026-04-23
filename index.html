@@ -627,7 +627,6 @@ function modes() {
 // ---------- SETUP ----------
 function setup() {
   render(`
-    ${backButton("menu()")}
     ${header()}
     <div class="card">
       <h2>Nueva Partida</h2>
@@ -757,7 +756,6 @@ function names() {
   gameState.numImpostors = imp;
 
   let html = `
-    ${backButton("setup()")}
 
     ${header()}
     <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
