@@ -73,37 +73,36 @@ h2 {
 }
 
 .stepper {
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  background:#1e1e1e;
-  border-radius:14px;
-
-  padding:0 10px;   /* 🔥 solo horizontal */
-  height:80px;      /* 🔥 altura fija */
-
-  margin:10px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #1e1e1e;
+  border-radius: 14px;
+  padding: 0 16px;   /* Un poco más de aire a los lados */
+  height: 70px;      /* Reducido ligeramente para mejor estética */
+  margin: 10px 0;
+  overflow: hidden;  /* Evita que nada sobresalga */
 }
 
 .stepper button {
-  width:42px;
-  height:42px;
-  border-radius:12px;
-
-  background: rgba(255,255,255,0.05); /* 🔥 glass effect */
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.05);
   border: 1px solid rgba(255,255,255,0.08);
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  padding:0;
-  line-height:0;
-
-  backdrop-filter: blur(6px); /* 👈 efecto iOS */
+  
+  /* Flexbox para centrar el icono dentro del botón */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  padding: 0;
+  margin: 0;         /* Quitamos márgenes heredados de otros botones */
+  line-height: normal;
+  backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
-
   transition: all 0.15s ease;
+  cursor: pointer;
 }
 
 .stepper button:hover {
@@ -123,9 +122,11 @@ h2 {
 }
 
 .stepper span {
-  font-size:50px;
-  font-weight:bold;
-  color:var(--gold);
+  font-size: 40px;    /* Bajado de 50px a 40px para que no choque con los bordes */
+  font-weight: bold;
+  color: var(--gold);
+  line-height: 70px;  /* Misma altura que el contenedor .stepper para centrar verticalmente */
+  display: inline-block;
 }
   
 /* INPUT */
