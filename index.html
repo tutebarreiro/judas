@@ -357,6 +357,7 @@ button {
 <link rel="preload" as="image" href="iconos/nueva-partida.png">
 <link rel="preload" as="image" href="iconos/ojo.png">
 <link rel="preload" as="image" href="iconos/quitar.png">
+<link rel="preload" as="image" href="random/quitar.png">
   
 <div id="app"></div>
 
@@ -772,7 +773,7 @@ function reveal() {
     " onclick="showWord()">
 
       <div style="margin-bottom: 10px;">
-          <img src="iconos/ojo.png" style="width:100px;">
+          <img src="iconos/ojo.png" style="width:80px;">
       </div>
 
       <h2 style="color:var(--gold); margin:10px 0;">
@@ -1002,14 +1003,15 @@ function showTurnOrder() {
             ${idx + 1}
           </div>
           
-          <img src="iconos/jugador.png" style="width:22px; opacity:0.3;">
+          <img src="iconos/jugador.png" style="width:30px; opacity:0.3;">
           
           <span style="font-size:19px; font-weight:500; color:#eee;">${j.nombre}</span>
         </div>
       `).join("")}
     </div>
 
-    <div class="card" style="background:#141414; border:none; box-shadow:none; padding:15px 5px;">
+    <div class="card" style="background:#141414; border:none; box-shadow:none; padding: 15px 15px 15px 15px;">
+      
       <div style="display:flex; gap:12px; margin-bottom:16px; align-items:flex-start;">
         <div style="color:var(--gold); border:1px solid var(--gold); border-radius:50%; width:20px; height:20px; display:flex; align-items:center; justify-content:center; font-size:10px; flex-shrink:0; margin-top:2px;">✓</div>
         <p style="margin:0; font-size:14px; opacity:0.7;">Cada jugador dice una palabra relacionada con el tema</p>
@@ -1024,6 +1026,7 @@ function showTurnOrder() {
         <div style="color:var(--gold); border:1px solid var(--gold); border-radius:50%; width:20px; height:20px; display:flex; align-items:center; justify-content:center; font-size:10px; flex-shrink:0; margin-top:2px;">✓</div>
         <p style="margin:0; font-size:14px; opacity:0.7;">Al final, votan para eliminar a un sospechoso</p>
       </div>
+
     </div>
 
     <button onclick="startRound()" style="
