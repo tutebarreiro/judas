@@ -267,6 +267,35 @@ button {
   }
 }
 
+@keyframes alertPop {
+  0% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes pulseGlow {
+  0% {
+    transform: scale(1);
+    text-shadow: 0 0 0 rgba(212,175,55,0);
+  }
+  50% {
+    transform: scale(1.15);
+    text-shadow: 0 0 20px rgba(212,175,55,0.8);
+  }
+  100% {
+    transform: scale(1);
+    text-shadow: 0 0 0 rgba(212,175,55,0);
+  }
+}
+
 /* FILA */
 .switch-row {
   display:flex;
@@ -1428,32 +1457,49 @@ function confirmElimination() {
   `);
 }
 
-function endElimination() {
+  function endElimination() {
 
   let activos = gameState.jugadores.filter(j => j.activo);
   let impostoresRestantes = activos.filter(j => j.rol === "impostor").length;
 
+  // 🔴 SI NO QUEDAN IMPOSTORES → NO mostrar alerta
+  if (impostoresRestantes === 0) {
+    gameState.votes = [];
+    gameState.voterIndex = 0;
+    gameState.lastVoteCount = null;
+    gameState.toEliminate = [];
+
+    return checkWin();
+  }
+
+  // 🟡 SI QUEDAN → mostrar alerta
   render(`
     ${header()}
 
-    <div class="card" style="text-align:center;">
-      <h2>Estado del juego</h2>
+    <div class="card" style="
+      text-align:center;
+      animation: alertPop 0.4s ease;
+    ">
+      <h2 style="letter-spacing:2px; opacity:0.7;">
+        ⚠️ ALERTA
+      </h2>
 
       <div style="
-        font-size:48px;
-        margin:20px 0;
-        color:var(--gold);
+        font-size:60px;
+        margin:25px 0;
+        color:#ff3b30;
         font-weight:bold;
+        animation: pulseGlow 1s ease;
       ">
         ${impostoresRestantes}
       </div>
 
-      <p style="opacity:0.7;">
-        impostor${impostoresRestantes !== 1 ? "es" : ""} en juego
+      <p style="opacity:0.8;">
+        impostor${impostoresRestantes !== 1 ? "es" : ""} siguen en juego
       </p>
 
-      <button onclick="continueGame()">
-        Continuar
+      <button onclick="continueGame()" style="margin-top:25px;">
+        Continuar →
       </button>
     </div>
   `);
