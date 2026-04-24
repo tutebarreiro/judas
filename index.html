@@ -1429,6 +1429,37 @@ function confirmElimination() {
 }
 
 function endElimination() {
+
+  let activos = gameState.jugadores.filter(j => j.activo);
+  let impostoresRestantes = activos.filter(j => j.rol === "impostor").length;
+
+  render(`
+    ${header()}
+
+    <div class="card" style="text-align:center;">
+      <h2>Estado del juego</h2>
+
+      <div style="
+        font-size:48px;
+        margin:20px 0;
+        color:var(--gold);
+        font-weight:bold;
+      ">
+        ${impostoresRestantes}
+      </div>
+
+      <p style="opacity:0.7;">
+        impostor${impostoresRestantes !== 1 ? "es" : ""} en juego
+      </p>
+
+      <button onclick="continueGame()">
+        Continuar
+      </button>
+    </div>
+  `);
+}
+
+function continueGame() {
   gameState.votes = [];
   gameState.voterIndex = 0;
   gameState.lastVoteCount = null;
