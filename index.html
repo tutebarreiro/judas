@@ -222,6 +222,14 @@ button {
   filter: drop-shadow(0 10px 25px rgba(0,0,0,0.6));
 }
 
+.logo-final img {
+  width: 150px;
+  margin-bottom: 10px;
+
+  filter: drop-shadow(0 0 15px rgba(212,175,55,0.6));
+  animation: pulseGlow 2s infinite;
+}
+  
 /* ANIMACIÓN SELLO */
 @keyframes stamp {
   0% {
@@ -1727,6 +1735,10 @@ function showEndScreen(winner) {
 
       <!-- CONTENIDO -->
       <div class="end-card">
+      
+        <div class="logo-final">
+          <img src="iconos/logo.png">
+        </div>
 
         <div class="icon">
           <img src="iconos/${isInnocents ? "jugadores-dorado.png" : "impostor.png"}">
