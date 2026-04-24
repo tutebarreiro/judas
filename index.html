@@ -1603,6 +1603,7 @@ function checkWin() {
 
   // 🟡 GANAN INOCENTES
   if (impostores.length === 0) {
+    document.getElementById("app").style.padding = "0";
     render(`
       <div style="
         height:100vh;
@@ -1642,6 +1643,7 @@ function checkWin() {
 
   // 🔴 GANAN IMPOSTORES
   if (normales.length === 1) {
+    document.getElementById("app").style.padding = "0";
     render(`
       <div class="card" style="
         text-align:center;
@@ -1662,7 +1664,7 @@ function checkWin() {
           El engaño triunfó
         </p>
 
-        <button onclick="menu()" style="margin-top:25px;">
+        <button onclick="resetLayoutAndMenu()" style="margin-top:25px;">
           Volver al inicio
         </button>
       </div>
@@ -1673,6 +1675,11 @@ function checkWin() {
   nextRound();
 }
 
+function resetLayoutAndMenu() {
+  document.getElementById("app").style.padding = "20px 16px";
+  menu();
+}
+  
 function nextRound() {
   gameState.ronda++;
   startRound();
