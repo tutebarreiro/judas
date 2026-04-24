@@ -1236,6 +1236,8 @@ function pickDisciple() {
 
 // ---------- RONDA ----------
 function startRound() {
+  render(`
+    ${header()}
   let activos = gameState.jugadores.filter(j => j.activo);
   // Barajamos el orden para que cada ronda sea distinta
   let ordenTurno = [...activos].sort(() => Math.random() - 0.5);
