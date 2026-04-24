@@ -251,6 +251,32 @@ button {
   animation: fade 0.3s ease;
 }
 
+@keyframes winPop {
+  0% {
+    opacity:0;
+    transform:scale(0.6);
+  }
+  60% {
+    opacity:1;
+    transform:scale(1.15);
+  }
+  100% {
+    transform:scale(1);
+  }
+}
+
+@keyframes goldGlow {
+  0% { text-shadow: 0 0 0 rgba(212,175,55,0); }
+  50% { text-shadow: 0 0 25px rgba(212,175,55,0.9); }
+  100% { text-shadow: 0 0 0 rgba(212,175,55,0); }
+}
+
+@keyframes redGlow {
+  0% { text-shadow: 0 0 0 rgba(255,0,0,0); }
+  50% { text-shadow: 0 0 25px rgba(255,0,0,0.9); }
+  100% { text-shadow: 0 0 0 rgba(255,0,0,0); }
+}
+  
 @keyframes fade {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -1584,10 +1610,68 @@ function checkWin() {
   let impostores = activos.filter(j=>j.rol==="impostor");
   let normales = activos.filter(j=>j.rol!=="impostor");
 
+  // 🟡 GANAN INOCENTES
   if (impostores.length === 0) {
-    render(`<div class="card"><h2>GANAN LOS INOCENTES</h2><button onclick="menu()">Inicio</button></div>`);
+    render(`
+      <div class="card" style="
+        text-align:center;
+        animation: winPop 0.5s ease;
+      ">
+        <div>
+          <img src="iconos/jugadores.png" style="width:70px;">
+        </div>
+
+        <h2 style="
+          color:var(--gold);
+          animation: goldGlow 1.2s ease infinite;
+        ">
+          ¡GANAN LOS INOCENTES!
+        </h2>
+
+        <p style="opacity:0.7; margin-top:10px;">
+          La verdad salió a la luz
+        </p>
+
+        <button onclick="menu()" style="margin-top:25px;">
+          Volver al inicio
+        </button>
+      </div>
+    `);
     return;
   }
+
+  // 🔴 GANAN IMPOSTORES
+  if (normales.length === 1) {
+    render(`
+      <div class="card" style="
+        text-align:center;
+        animation: winPop 0.5s ease;
+      ">
+        <div>
+          <img src="iconos/impostor.png" style="width:70px;">
+        </div>
+
+        <h2 style="
+          color:#ff3b30;
+          animation: redGlow 1.2s ease infinite;
+        ">
+          ¡GANAN LOS IMPOSTORES!
+        </h2>
+
+        <p style="opacity:0.7; margin-top:10px;">
+          El engaño triunfó
+        </p>
+
+        <button onclick="menu()" style="margin-top:25px;">
+          Volver al inicio
+        </button>
+      </div>
+    `);
+    return;
+  }
+
+  nextRound();
+}
 
   if (normales.length === 1) {
     render(`<div class="card"><h2>GANAN LOS IMPOSTORES</h2><button onclick="menu()">Inicio</button></div>`);
