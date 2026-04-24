@@ -227,7 +227,7 @@ button {
   margin-bottom: 10px;
 
   filter: drop-shadow(0 0 15px rgba(212,175,55,0.6));
-  animation: pulseGlow 2s infinite;
+  animation: pulseSmooth 3.5s ease-in-out infinite;
 }
   
 /* ANIMACIÓN SELLO */
@@ -319,6 +319,21 @@ button {
   100% {
     transform: scale(1);
     text-shadow: 0 0 0 rgba(212,175,55,0);
+  }
+}
+
+@keyframes pulseSmooth {
+  0% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 10px rgba(212,175,55,0.4));
+  }
+  50% {
+    transform: scale(1.06);
+    filter: drop-shadow(0 0 25px rgba(212,175,55,0.9));
+  }
+  100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 10px rgba(212,175,55,0.4));
   }
 }
 
