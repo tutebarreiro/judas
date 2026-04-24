@@ -588,6 +588,51 @@ button {
     transform: translateY(20%);
   }
 }
+
+/* REVEAL SCREEN */
+.reveal-container {
+  text-align:center;
+  animation: fade 0.4s ease;
+}
+
+.reveal-text {
+  font-size:22px;
+  letter-spacing:2px;
+  opacity:0.7;
+  margin-bottom:20px;
+}
+
+/* NOMBRE GRANDE */
+.reveal-name {
+  font-size:60px;
+  font-weight:bold;
+  margin:10px 0;
+
+  opacity:0;
+  transform:scale(0.5);
+
+  animation: revealPop 0.5s ease forwards;
+}
+
+/* delay escalonado */
+.reveal-name:nth-child(1){ animation-delay:0.3s; }
+.reveal-name:nth-child(2){ animation-delay:0.6s; }
+.reveal-name:nth-child(3){ animation-delay:0.9s; }
+.reveal-name:nth-child(4){ animation-delay:1.2s; }
+
+@keyframes revealPop {
+  0% {
+    opacity:0;
+    transform:scale(0.5);
+  }
+  60% {
+    opacity:1;
+    transform:scale(1.2);
+  }
+  100% {
+    transform:scale(1);
+  }
+}
   
 </style>
 </head>
@@ -1757,15 +1802,51 @@ function checkWin() {
 
   // 🟡 GANAN INOCENTES
   if (impostores.length === 0) {
-    return showEndScreen("inocentes");
+    return showReveal("inocentes");
   }
 
   // 🔴 GANAN IMPOSTORES
   if (normales.length === 1) {
-    return showEndScreen("impostores");
+    return showReveal("inocentes");
   }
 
   nextRound();
+}
+
+function showReveal(winner) {
+
+  const isInnocents = winner === "inocentes";
+
+  const impostores = gameState.jugadores
+    .filter(j => j.rol === "impostor");
+
+  document.getElementById("app").style.padding = "0";
+
+  render(`
+    <div class="end-screen ${isInnocents ? "win" : "lose"}">
+
+      <div class="reveal-container">
+
+        <div class="reveal-text">
+          ${isInnocents ? "¡LOS IMPOSTORES ERAN!" : "¡LOS IMPOSTORES GANAN!"}
+        </div>
+
+        <div class="reveal-names">
+          ${impostores.map(i => `
+            <div class="reveal-name">
+              ${i.nombre}
+            </div>
+          `).join("")}
+        </div>
+
+      </div>
+    </div>
+  `);
+
+  // ⏱️ después de 2.5s pasa a la pantalla final
+  setTimeout(() => {
+    showEndScreen(winner);
+  }, 2500);
 }
 
 function showEndScreen(winner) {
