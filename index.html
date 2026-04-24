@@ -1604,28 +1604,37 @@ function checkWin() {
   // 🟡 GANAN INOCENTES
   if (impostores.length === 0) {
     render(`
-      <div class="card" style="
-        text-align:center;
-        animation: winPop 0.5s ease;
+      <div style="
+        height:100vh;
+        display:flex;
+        align-items:center;
+        justify-content:center;
       ">
-        <div>
-          <img src="iconos/jugadores-dorado.png" style="width:70px;">
-        </div>
-
-        <h2 style="
-          color:var(--gold);
-          animation: goldGlow 1.2s ease infinite;
+        <div class="card" style="
+          text-align:center;
+          animation: winPop 0.5s ease;
+          width:100%;
+          max-width:360px;
         ">
-          ¡GANAN LOS INOCENTES!
-        </h2>
+          <div>
+            <img src="iconos/jugadores.png" style="width:70px;">
+          </div>
 
-        <p style="opacity:0.7; margin-top:10px;">
-          La verdad salió a la luz
-        </p>
+          <h2 style="
+            color:var(--gold);
+            animation: goldGlow 1.2s ease infinite;
+          ">
+            ¡GANAN LOS INOCENTES!
+          </h2>
 
-        <button onclick="menu()" style="margin-top:25px;">
-          Volver al inicio
-        </button>
+          <p style="opacity:0.7; margin-top:10px;">
+            La verdad salió a la luz
+          </p>
+
+          <button onclick="menu()" style="margin-top:25px;">
+            Volver al inicio
+          </button>
+        </div>
       </div>
     `);
     return;
