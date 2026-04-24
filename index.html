@@ -205,6 +205,37 @@ button {
   box-shadow: 0 10px 40px rgba(0,0,0,0.6);
 }
 
+.end-player {
+  position: relative;
+  overflow: hidden;
+}
+
+/* línea de tachado */
+.end-player::after {
+  content: "";
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  top: 50%;
+  height: 2px;
+  background: #ff3b30;
+
+  transform: scaleX(0);
+  transform-origin: left;
+
+  transition: transform 0.5s ease;
+}
+
+/* jugador eliminado */
+.end-player.dead {
+  opacity: 0.5;
+}
+
+/* animación */
+.end-player.dead::after {
+  transform: scaleX(1);
+}
+
 /* ANIMACIÓN */
 .logo-stamp {
   display:flex;
@@ -1746,6 +1777,8 @@ function showEndScreen(winner) {
     .filter(j => j.rol === "impostor")
     .map(j => j.nombre);
 
+  const listaJugadores = gameState.jugadores;
+
   render(`
     <div class="end-screen ${isInnocents ? "win" : "lose"}">
 
@@ -1770,6 +1803,53 @@ function showEndScreen(winner) {
         <p class="subtitle">
           ${isInnocents ? "La verdad salió a la luz" : "El engaño triunfó"}
         </p>
+
+        <div style="
+          margin-top:16px;
+          text-align:left;
+        ">
+
+          <div style="
+            font-size:12px;
+            opacity:0.6;
+            margin-bottom:8px;
+            text-align:center;
+          ">
+            ROLES
+          </div>
+
+          ${listaJugadores.map((j, i) => `
+            <div class="end-player ${j.activo ? "" : "dead"}" style="
+              display:flex;
+              justify-content:space-between;
+              align-items:center;
+              padding:10px 12px;
+              border-radius:10px;
+              margin-bottom:6px;
+              background:rgba(255,255,255,0.04);
+              font-size:14px;
+
+              opacity:0;
+              animation: fade 0.5s ease forwards;
+              animation-delay:${i * 0.15}s;
+            ">
+
+              <span>${j.nombre}</span>
+
+              <span style="
+                font-weight:bold;
+                color:
+                  ${j.rol === "impostor" ? "#ff3b30" :
+                    j.rol === "discipulo" ? "#4cd964" :
+                    "var(--gold)"};
+              ">
+                ${j.rol.toUpperCase()}
+              </span>
+
+            </div>
+          `).join("")}
+
+        </div>
 
         <div style="
           margin-top:14px;
