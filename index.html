@@ -17,7 +17,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,1..1000&display=swap" rel="stylesheet">
   
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Judas</title>
 
 <style>
@@ -219,6 +218,8 @@ button {
   height: auto;
 
   animation: stamp 0.6s ease-out forwards;
+
+  filter: drop-shadow(0 10px 25px rgba(0,0,0,0.6));
 }
 
 /* ANIMACIÓN SELLO */
@@ -237,16 +238,7 @@ button {
     transform: scale(1) rotate(0deg);
   }
 }
-
-.logo-img {
-  width: 250px;
-  height: auto;
-
-  animation: stamp 0.6s ease-out forwards;
-
-  filter: drop-shadow(0 10px 25px rgba(0,0,0,0.6));
-}
-  
+ 
 .fade {
   animation: fade 0.3s ease;
 }
@@ -1665,14 +1657,6 @@ function checkWin() {
         </button>
       </div>
     `);
-    return;
-  }
-
-  nextRound();
-}
-
-  if (normales.length === 1) {
-    render(`<div class="card"><h2>GANAN LOS IMPOSTORES</h2><button onclick="menu()">Inicio</button></div>`);
     return;
   }
 
