@@ -627,7 +627,7 @@ function modes() {
 // ---------- SETUP ----------
 function setup() {
   render(`
-    ${header("setup()")}
+    ${header("menu()")}
     <div class="card">
       <h2>Nueva Partida</h2>
 
@@ -848,7 +848,7 @@ function startGame(n) {
   for (let i = 0; i < n; i++) {
     let nombre = document.getElementById(`p${i}`).value.trim();
     if (!nombre) return alert("Completa todos los nombres");
-    jugadores.push({ nombre, rol:"normal", activo:true });
+    jugadores.push({ nombre, rol:"inocente", activo:true });
   }
 
   const categorias = Object.keys(db);
