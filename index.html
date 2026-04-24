@@ -1475,13 +1475,14 @@ function confirmElimination() {
   `);
 }
 
-  function endElimination() {
+function endElimination() {
 
   let activos = gameState.jugadores.filter(j => j.activo);
   let impostoresRestantes = activos.filter(j => j.rol === "impostor").length;
+  let normalesRestantes = activos.filter(j => j.rol !== "impostor").length;
 
-  // 🔴 SI NO QUEDAN IMPOSTORES → NO mostrar alerta
-  if (impostoresRestantes === 0) {
+  // 🟡 SI TERMINA EL JUEGO → NO mostrar alerta
+  if (impostoresRestantes === 0 || normalesRestantes === 1) {
     gameState.votes = [];
     gameState.voterIndex = 0;
     gameState.lastVoteCount = null;
@@ -1490,7 +1491,7 @@ function confirmElimination() {
     return checkWin();
   }
 
-  // 🟡 SI QUEDAN → mostrar alerta
+  // 🔴 SI NO TERMINÓ → mostrar alerta
   render(`
     ${header()}
 
