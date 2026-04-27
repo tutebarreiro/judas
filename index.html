@@ -874,75 +874,98 @@ function setup() {
         </button>
       </div>
 
-      <h4 style="display:flex; align-items:center; gap:8px; margin-top:18px;">
-        <img src="iconos/roles-especiales.png" style="width:30px;">
-        Roles especiales
-      </h4>
+      <div onclick="toggleRoles()" style="
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        margin-top:18px;
+        cursor:pointer;
+        
+        padding:10px 0;
+        border-radius:10px;
+        background:#1e1e1e;
+      ">
 
-      <label class="switch-row">
-        <div style="display:flex; flex-direction:column; flex:1;">
-          <span>Juez</span>
-
-          <!-- 👇 DESCRIPCIÓN -->
-          <span style="
-            font-size:12px;
-            opacity:0.6;
-            margin-top:2px;
-          ">
-            Tendrá el voto de desempate en caso de empate
-          </span>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <img src="iconos/roles-especiales.png" style="width:30px;">
+          <span style="font-size:18px; font-weight:bold;">Roles especiales</span>
         </div>
 
-        <label class="switch">
-          <input id="enableDisciple" type="checkbox">
-          <span class="slider"></span>
-        </label>
-      </label>
+        <img id="rolesArrow" src="iconos/back.png" style="
+          width:16px;
+          transform:rotate(-90deg);
+          opacity:0.6;
+          transition:0.2s;
+        ">
+      </div>
 
-      <!-- ABEL -->
-      <label class="switch-row">
-        <div style="display:flex; flex-direction:column; flex:1;">
-          <span>Abel</span>
-          <span style="font-size:12px; opacity:0.6; margin-top:2px;">
-            Aun después de ser eliminado, su voz sigue contando en la votación
-          </span>
+      <div id="rolesContainer" style="display:none; margin-top:10px;">
+
+        <label class="switch-row">
+          <div style="display:flex; flex-direction:column; flex:1;">
+            <span>Juez</span>
+
+            <!-- 👇 DESCRIPCIÓN -->
+            <span style="
+              font-size:12px;
+              opacity:0.6;
+              margin-top:2px;
+            ">
+              Tendrá el voto de desempate en caso de empate
+            </span>
+          </div>
+
+          <label class="switch">
+            <input id="enableDisciple" type="checkbox">
+            <span class="slider"></span>
+          </label>
+        </label>
+
+        <!-- ABEL -->
+        <label class="switch-row">
+          <div style="display:flex; flex-direction:column; flex:1;">
+            <span>Abel</span>
+            <span style="font-size:12px; opacity:0.6; margin-top:2px;">
+              Aun después de ser eliminado, su voz sigue contando en la votación
+            </span>
+          </div>
+
+          <label class="switch">
+            <input id="enableAbel" type="checkbox">
+            <span class="slider"></span>
+          </label>
+        </label>
+
+        <!-- ANANIAS Y SAFIRA -->
+        <label class="switch-row">
+          <div style="display:flex; flex-direction:column; flex:1;">
+            <span>Ananías y Safira</span>
+            <span style="font-size:12px; opacity:0.6; margin-top:2px;">
+              Dos jugadores están conectados: si uno es eliminado, el otro también
+            </span>
+          </div>
+
+          <label class="switch">
+            <input id="enableDuo" type="checkbox">
+            <span class="slider"></span>
+          </label>
+        </label>
+
+        <!-- ZACARIAS -->
+        <label class="switch-row">
+          <div style="display:flex; flex-direction:column; flex:1;">
+            <span>Zacarías</span>
+            <span style="font-size:12px; opacity:0.6; margin-top:2px;">
+              Un jugador por ronda debe comunicarse solo con gestos
+            </span>
+          </div>
+
+          <label class="switch">
+            <input id="enableZacarias" type="checkbox">
+            <span class="slider"></span>
+          </label>
+        </label>
         </div>
-
-        <label class="switch">
-          <input id="enableAbel" type="checkbox">
-          <span class="slider"></span>
-        </label>
-      </label>
-
-      <!-- ANANIAS Y SAFIRA -->
-      <label class="switch-row">
-        <div style="display:flex; flex-direction:column; flex:1;">
-          <span>Ananías y Safira</span>
-          <span style="font-size:12px; opacity:0.6; margin-top:2px;">
-            Dos jugadores están conectados: si uno es eliminado, el otro también
-          </span>
-        </div>
-
-        <label class="switch">
-          <input id="enableDuo" type="checkbox">
-          <span class="slider"></span>
-        </label>
-      </label>
-
-      <!-- ZACARIAS -->
-      <label class="switch-row">
-        <div style="display:flex; flex-direction:column; flex:1;">
-          <span>Zacarías</span>
-          <span style="font-size:12px; opacity:0.6; margin-top:2px;">
-            Un jugador por ronda debe comunicarse solo con gestos
-          </span>
-        </div>
-
-        <label class="switch">
-          <input id="enableZacarias" type="checkbox">
-          <span class="slider"></span>
-        </label>
-      </label>
 
       <button onclick="names()">Continuar</button>
     </div>
@@ -1416,6 +1439,19 @@ function nextReveal() {
   reveal();
 }
 
+function toggleRoles() {
+  const container = document.getElementById("rolesContainer");
+  const arrow = document.getElementById("rolesArrow");
+
+  const isOpen = container.style.display === "block";
+
+  container.style.display = isOpen ? "none" : "block";
+
+  arrow.style.transform = isOpen
+    ? "rotate(-90deg)"
+    : "rotate(0deg)";
+}
+  
 function showDisciple() {
   let d = gameState.disciple;
 
