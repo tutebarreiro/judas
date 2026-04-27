@@ -883,7 +883,6 @@ function setup() {
         
         padding:10px 0;
         border-radius:10px;
-        background:#1e1e1e;
       ">
 
         <div style="display:flex; align-items:center; gap:8px;">
@@ -891,10 +890,9 @@ function setup() {
           <span style="font-size:18px; font-weight:bold;">Roles especiales</span>
         </div>
 
-        <img id="rolesArrow" src="iconos/back.png" style="
-          width:16px;
-          transform:rotate(-90deg);
-          opacity:0.6;
+        <img id="rolesArrow" src="iconos/abajo.png" style="
+          width:18px;
+          opacity:0.8;
           transition:0.2s;
         ">
       </div>
@@ -1448,8 +1446,8 @@ function toggleRoles() {
   container.style.display = isOpen ? "none" : "block";
 
   arrow.style.transform = isOpen
-    ? "rotate(-90deg)"
-    : "rotate(0deg)";
+    ? "rotate(0deg)"
+    : "rotate(180deg)";
 }
   
 function showDisciple() {
