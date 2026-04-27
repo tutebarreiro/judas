@@ -1351,8 +1351,10 @@ function nextReveal() {
   gameState.indexReveal++;
   
   if (gameState.indexReveal >= gameState.jugadores.length) {
-    // Al terminar de revelar, vamos directo a la pantalla de la ronda
-    return startRound(); 
+    if (gameState.enableDisciple) {
+      return pickDisciple();
+    }
+    return startRound();
   }
   
   reveal();
