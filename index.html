@@ -963,6 +963,21 @@ function setup() {
             <span class="slider"></span>
           </label>
         </label>
+
+        <!-- ÁNGEL GUARDIÁN -->
+        <label class="switch-row">
+          <div style="display:flex; flex-direction:column; flex:1;">
+            <span>🛡️ Ángel guardián</span>
+            <span style="font-size:12px; opacity:0.6; margin-top:2px;">
+              Una vez por partida, evita que un jugador sea eliminado
+            </span>
+          </div>
+
+          <label class="switch">
+            <input id="enableGuardian" type="checkbox">
+            <span class="slider"></span>
+          </label>
+        </label>
         </div>
 
       <button onclick="names()">Continuar</button>
@@ -1027,6 +1042,7 @@ function names() {
   gameState.enableAbel = document.getElementById("enableAbel").checked;
   gameState.enableDuo = document.getElementById("enableDuo").checked;
   gameState.enableZacarias = document.getElementById("enableZacarias").checked;
+  gameState.enableGuardian = document.getElementById("enableGuardian").checked;
   
   if (!n || n < 3) return alert("Ingresa al menos 3 jugadores");
   if (!imp || imp < 1) return alert("Debe haber al menos 1 impostor");
