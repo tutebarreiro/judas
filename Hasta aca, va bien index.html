@@ -1052,7 +1052,12 @@ function startGame(n) {
   for (let i = 0; i < n; i++) {
     let nombre = document.getElementById(`p${i}`).value.trim();
     if (!nombre) return alert("Completa todos los nombres");
-    jugadores.push({ nombre, rol:"inocente", activo:true });
+    jugadores.push({
+      nombre,
+      rol:"inocente",     // equipo
+      especial:null,      // rol especial
+      activo:true
+    });
   }
 
   const categorias = Object.keys(db);
@@ -1293,18 +1298,11 @@ function showWord() {
     `;
   }
 
-  else if (j.rol === "juez") {
-    content = `
-      <div style="letter-spacing:2px; opacity:0.7;">LA PALABRA ES</div>
-
-      <div class="big-text" style="color:var(--gold); margin:10px 0;">
-        ${gameState.palabra}
-      </div>
-
-      <div style="letter-spacing:4px; opacity:0.7;">Categoría</div>
-      <div>${gameState.categoria}</div>
-
-      <p style="margin-top:15px;"><b>Juez (voto de desempate)</b></p>
+  else if (j.especial === "juez") {
+    content += `
+      <p style="margin-top:15px;">
+        <b>Juez (voto de desempate)</b>
+      </p>
     `;
   }
 
@@ -1849,6 +1847,7 @@ function showEndScreen(winner) {
                     "var(--gold)"};
               ">
                 ${j.rol.toUpperCase()}
+                ${j.especial ? " • " + j.especial.toUpperCase() : ""}
               </span>
 
             </div>
