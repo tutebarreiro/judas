@@ -891,6 +891,51 @@ function setup() {
         </label>
       </label>
 
+      <!-- ABEL -->
+      <label class="switch-row">
+        <div style="display:flex; flex-direction:column;">
+          <span>Abel</span>
+          <span style="font-size:9px; opacity:0.6; margin-top:2px;">
+            Aun después de ser eliminado, su voz sigue contando en la votación
+          </span>
+        </div>
+
+        <label class="switch">
+          <input id="enableAbel" type="checkbox">
+          <span class="slider"></span>
+        </label>
+      </label>
+
+      <!-- ANANIAS Y SAFIRA -->
+      <label class="switch-row">
+        <div style="display:flex; flex-direction:column;">
+          <span>Ananías y Safira</span>
+          <span style="font-size:9px; opacity:0.6; margin-top:2px;">
+            Dos jugadores están conectados: si uno es eliminado, el otro también
+          </span>
+        </div>
+
+        <label class="switch">
+          <input id="enableDuo" type="checkbox">
+          <span class="slider"></span>
+        </label>
+      </label>
+
+      <!-- ZACARIAS -->
+      <label class="switch-row">
+        <div style="display:flex; flex-direction:column;">
+          <span>Zacarías</span>
+          <span style="font-size:9px; opacity:0.6; margin-top:2px;">
+            Un jugador por ronda debe comunicarse solo con gestos
+          </span>
+        </div>
+
+        <label class="switch">
+          <input id="enableZacarias" type="checkbox">
+          <span class="slider"></span>
+        </label>
+      </label>
+
       <button onclick="names()">Continuar</button>
     </div>
   `);
@@ -950,12 +995,17 @@ function names() {
   const n = +document.getElementById("players").textContent;
   const imp = +document.getElementById("impostors").textContent;
 
-  const discipleEnabled = document.getElementById("enableDisciple").checked;
-  gameState.enableDisciple = discipleEnabled;
-
+  gameState.enableAbel = document.getElementById("enableAbel").checked;
+  gameState.enableDuo = document.getElementById("enableDuo").checked;
+  gameState.enableZacarias = document.getElementById("enableZacarias").checked;
+  
   if (!n || n < 3) return alert("Ingresa al menos 3 jugadores");
   if (!imp || imp < 1) return alert("Debe haber al menos 1 impostor");
   if (imp >= n) return alert("Debe haber menos impostores que jugadores");
+
+  if (gameState.enableDuo && n < 6) {
+    return alert("Ananías y Safira requiere al menos 6 jugadores");
+  }
 
   gameState.numImpostors = imp;
 
