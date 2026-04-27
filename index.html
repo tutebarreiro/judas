@@ -1293,7 +1293,7 @@ function showWord() {
     `;
   }
 
-  else if (j.rol === "discipulo") {
+  else if (j.rol === "juez") {
     content = `
       <div style="letter-spacing:2px; opacity:0.7;">LA PALABRA ES</div>
 
@@ -1390,7 +1390,7 @@ function pickDisciple() {
 
   let elegido = candidatos[Math.floor(Math.random() * candidatos.length)];
 
-  elegido.rol = "discipulo";
+  elegido.rol = "juez";
 
   gameState.disciple = elegido;
 
@@ -1845,7 +1845,7 @@ function showEndScreen(winner) {
                 font-weight:bold;
                 color:
                   ${j.rol === "impostor" ? "#ff3b30" :
-                    j.rol === "discipulo" ? "#4cd964" :
+                    j.rol === "juez" ? "#4cd964" :
                     "var(--gold)"};
               ">
                 ${j.rol.toUpperCase()}
