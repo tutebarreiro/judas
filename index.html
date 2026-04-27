@@ -370,17 +370,20 @@ button {
 
 /* FILA */
 .switch-row {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-top:14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 14px;
+  gap: 12px; /* 🔥 evita que se peguen */
 }
 
 /* SWITCH BASE */
 .switch {
-  position:relative;
-  width:52px;
-  height:30px;
+  position: relative;
+  width: 52px;
+  height: 30px;
+
+  flex-shrink: 0;   /* 🔥 CLAVE: evita que se achique */
 }
 
 .switch input {
@@ -872,7 +875,7 @@ function setup() {
       </div>
 
       <label class="switch-row">
-        <div style="display:flex; flex-direction:column;">
+        <div style="display:flex; flex-direction:column; flex:1;">
           <span>Rol Juez</span>
 
           <!-- 👇 DESCRIPCIÓN -->
@@ -893,7 +896,7 @@ function setup() {
 
       <!-- ABEL -->
       <label class="switch-row">
-        <div style="display:flex; flex-direction:column;">
+        <div style="display:flex; flex-direction:column; flex:1;">
           <span>Abel</span>
           <span style="font-size:9px; opacity:0.6; margin-top:2px;">
             Aun después de ser eliminado, su voz sigue contando en la votación
@@ -908,7 +911,7 @@ function setup() {
 
       <!-- ANANIAS Y SAFIRA -->
       <label class="switch-row">
-        <div style="display:flex; flex-direction:column;">
+        <div style="display:flex; flex-direction:column; flex:1;">
           <span>Ananías y Safira</span>
           <span style="font-size:9px; opacity:0.6; margin-top:2px;">
             Dos jugadores están conectados: si uno es eliminado, el otro también
@@ -923,7 +926,7 @@ function setup() {
 
       <!-- ZACARIAS -->
       <label class="switch-row">
-        <div style="display:flex; flex-direction:column;">
+        <div style="display:flex; flex-direction:column; flex:1;">
           <span>Zacarías</span>
           <span style="font-size:9px; opacity:0.6; margin-top:2px;">
             Un jugador por ronda debe comunicarse solo con gestos
