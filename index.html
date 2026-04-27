@@ -1464,7 +1464,13 @@ function startRound() {
 }
 // ---------- VOTACIÓN ----------
 function getVoteCount() {
-  return gameState.jugadores.filter(j => j.activo && j.rol === "impostor").length || 1;
+  const activos = gameState.jugadores.filter(j => j.activo);
+  const impostores = activos.filter(j => j.rol === "impostor").length;
+
+  // jugadores que puedo votar (no me incluyo)
+  const votables = activos.length - 1;
+
+  return Math.min(impostores || 1, votables);
 }
 
 function vote() {
@@ -1764,7 +1770,7 @@ function checkWin() {
   }
 
   // 🔴 GANAN IMPOSTORES
-  if (normales.length === 1) {
+  if (impostores.length >= normales.length) {
     return showEndScreen("impostores");
   }
 
