@@ -1639,22 +1639,20 @@ function confirmElimination() {
 }
 
 function endElimination() {
-
   let activos = gameState.jugadores.filter(j => j.activo);
   let impostoresRestantes = activos.filter(j => j.rol === "impostor").length;
   let normalesRestantes = activos.filter(j => j.rol !== "impostor").length;
 
-  // 🟡 SI TERMINA EL JUEGO → NO mostrar alerta
-  if (impostoresRestantes === 0 || normalesRestantes === 1) {
-    gameState.votes = [];
-    gameState.voterIndex = 0;
-    gameState.lastVoteCount = null;
-    gameState.toEliminate = [];
-
-    return checkWin();
+  // ✅ CONDICIONES REALES DE FIN
+  if (impostoresRestantes === 0) {
+    return showEndScreen("inocentes");
   }
 
-  // 🔴 SI NO TERMINÓ → mostrar alerta
+  if (impostoresRestantes >= normalesRestantes) {
+    return showEndScreen("impostores");
+  }
+
+  // 🔴 SOLO SI NO TERMINÓ → mostrar alerta
   render(`
     ${header()}
 
