@@ -615,6 +615,11 @@ button {
 <link rel="preload" as="image" href="iconos/quitar.png">
 <link rel="preload" as="image" href="iconos/random.png">
 <link rel="preload" as="image" href="iconos/roles-especiales.png">
+<link rel="preload" as="image" href="iconos/abel.png">
+<link rel="preload" as="image" href="iconos/ananias-y-safira.png">
+<link rel="preload" as="image" href="iconos/escudo.png">
+<link rel="preload" as="image" href="iconos/juez.png">
+<link rel="preload" as="image" href="iconos/zacarias.png">
 
 <div id="app"></div>
 
@@ -903,7 +908,10 @@ function setup() {
 
         <label class="switch-row">
           <div style="display:flex; flex-direction:column; flex:1;">
-            <span>👨🏻‍⚖️​ Juez</span>
+            <span style="display:flex; align-items:center; gap:6px;">
+              <img src="iconos/juez.png" style="width:18px;">
+              Juez
+            </span>
 
             <!-- 👇 DESCRIPCIÓN -->
             <span style="
@@ -924,7 +932,11 @@ function setup() {
         <!-- ABEL -->
         <label class="switch-row">
           <div style="display:flex; flex-direction:column; flex:1;">
-            <span>🔊 Abel</span>
+            <span style="display:flex; align-items:center; gap:6px;">
+              <img src="iconos/abel.png" style="width:18px;">
+              Abel
+            </span>
+            
             <span style="font-size:12px; opacity:0.6; margin-top:2px;">
               Aun después de ser eliminado, su voz sigue contando en la votación
             </span>
@@ -939,7 +951,11 @@ function setup() {
         <!-- ANANIAS Y SAFIRA -->
         <label class="switch-row">
           <div style="display:flex; flex-direction:column; flex:1;">
-            <span>👥 Ananías y Safira</span>
+            <span style="display:flex; align-items:center; gap:6px;">
+              <img src="iconos/ananias-y-safira.png" style="width:18px;">
+              Ananías y Safira
+            </span>
+            
             <span style="font-size:12px; opacity:0.6; margin-top:2px;">
               Dos jugadores están conectados: si uno es eliminado, el otro también (mínimo 10 jugadores)
             </span>
@@ -954,7 +970,11 @@ function setup() {
         <!-- ZACARIAS -->
         <label class="switch-row">
           <div style="display:flex; flex-direction:column; flex:1;">
-            <span>🤐 Zacarías</span>
+            <span style="display:flex; align-items:center; gap:6px;">
+              <img src="iconos/zacarias.png" style="width:18px;">
+              Zacarías
+            </span>
+            
             <span style="font-size:12px; opacity:0.6; margin-top:2px;">
               Un jugador por ronda debe comunicarse solo con gestos
             </span>
@@ -969,7 +989,11 @@ function setup() {
         <!-- ÁNGEL GUARDIÁN -->
         <label class="switch-row">
           <div style="display:flex; flex-direction:column; flex:1;">
-            <span>🛡️ Ángel guardián</span>
+            <span style="display:flex; align-items:center; gap:6px;">
+              <img src="iconos/escudo.png" style="width:18px;">
+              Ángel guardián
+            </span>
+            
             <span style="font-size:12px; opacity:0.6; margin-top:2px;">
               Una vez por partida, evita que un jugador sea eliminado
             </span>
