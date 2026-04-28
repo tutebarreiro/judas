@@ -725,6 +725,12 @@ function menu() {
         <img src="iconos/modos-juego.png" style="width:30px;">
         Modos de juego
       </button>
+
+      <button onclick="rolesInfo()" style="display:flex; align-items:center; justify-content:center; gap:10px; font-size:20px;">
+        <img src="iconos/roles-especiales.png" style="width:30px;">
+        Roles especiales
+      </button>
+      
     </div>
   `);
 }
@@ -838,6 +844,153 @@ function modes() {
   `);
 }
 
+function rolesInfo() {
+  render(`
+    <h1>Roles especiales</h1>
+
+    <div class="card" style="
+      background: linear-gradient(145deg, #1a1a1a, #111);
+      border: 1px solid rgba(255,255,255,0.5);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    ">
+
+      <!-- JUEZ -->
+      <div style="
+        padding:18px;
+        border-radius:14px;
+        background:#1e1e1e;
+        margin-bottom:14px;
+        border:1px solid #2a2a2a;
+      ">
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">
+          <div style="
+            width:50px; height:50px;
+            border-radius:15px;
+            background:white;
+            display:flex; align-items:center; justify-content:center;
+          ">
+            <img src="iconos/juez.png" style="width:28px;">
+          </div>
+
+          <div>
+            <div style="font-weight:bold; font-size:16px;">Juez</div>
+            <div style="font-size:12px; opacity:0.6;">Desempate</div>
+          </div>
+        </div>
+
+        <p style="margin:0; font-size:14px; opacity:0.75;">
+          En caso de empate en la votación, el juez tiene el poder de decidir quién es eliminado.
+        </p>
+      </div>
+
+      <!-- ABEL -->
+      <div style="
+        padding:18px;
+        border-radius:14px;
+        background:#1e1e1e;
+        margin-bottom:14px;
+        border:1px solid #2a2a2a;
+      ">
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">
+          <div style="width:50px; height:50px; border-radius:15px; background:white; display:flex; align-items:center; justify-content:center;">
+            <img src="iconos/abel.png" style="width:28px;">
+          </div>
+
+          <div>
+            <div style="font-weight:bold; font-size:16px;">Abel</div>
+            <div style="font-size:12px; opacity:0.6;">Voto después de morir</div>
+          </div>
+        </div>
+
+        <p style="margin:0; font-size:14px; opacity:0.75;">
+          Aunque sea eliminado, Abel sigue participando en las votaciones hasta el final de la partida.
+        </p>
+      </div>
+
+      <!-- ANANIAS Y SAFIRA -->
+      <div style="
+        padding:18px;
+        border-radius:14px;
+        background:#1e1e1e;
+        margin-bottom:14px;
+        border:1px solid #2a2a2a;
+      ">
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">
+          <div style="width:50px; height:50px; border-radius:15px; background:white; display:flex; align-items:center; justify-content:center;">
+            <img src="iconos/ananias-y-safira.png" style="width:28px;">
+          </div>
+
+          <div>
+            <div style="font-weight:bold; font-size:16px;">Ananías y Safira</div>
+            <div style="font-size:12px; opacity:0.6;">Destino compartido</div>
+          </div>
+        </div>
+
+        <p style="margin:0; font-size:14px; opacity:0.75;">
+          Dos jugadores quedan vinculados: si uno es eliminado, el otro también cae automáticamente.
+        </p>
+      </div>
+
+      <!-- ZACARIAS -->
+      <div style="
+        padding:18px;
+        border-radius:14px;
+        background:#1e1e1e;
+        margin-bottom:14px;
+        border:1px solid #2a2a2a;
+      ">
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">
+          <div style="width:50px; height:50px; border-radius:15px; background:white; display:flex; align-items:center; justify-content:center;">
+            <img src="iconos/zacarias.png" style="width:28px;">
+          </div>
+
+          <div>
+            <div style="font-weight:bold; font-size:16px;">Zacarías</div>
+            <div style="font-size:12px; opacity:0.6;">Comunicación limitada</div>
+          </div>
+        </div>
+
+        <p style="margin:0; font-size:14px; opacity:0.75;">
+          En cada ronda, un jugador al azar no podrá hablar y deberá comunicarse solo con gestos.
+        </p>
+      </div>
+
+      <!-- ANGEL -->
+      <div style="
+        padding:18px;
+        border-radius:14px;
+        background:#1e1e1e;
+        border:1px solid #2a2a2a;
+      ">
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">
+          <div style="width:50px; height:50px; border-radius:15px; background:white; display:flex; align-items:center; justify-content:center;">
+            <img src="iconos/escudo.png" style="width:26px;">
+          </div>
+
+          <div>
+            <div style="font-weight:bold; font-size:16px;">Ángel guardián</div>
+            <div style="font-size:12px; opacity:0.6;">Protección</div>
+          </div>
+        </div>
+
+        <p style="margin:0; font-size:14px; opacity:0.75;">
+          Una vez por partida, puede evitar que un jugador sea eliminado.
+        </p>
+      </div>
+
+      <button onclick="menu()" style="
+        margin-top:20px;
+        border-radius:16px;
+        padding:18px;
+        font-size:16px;
+      ">
+        ← Volver
+      </button>
+
+    </div>
+  `);
+}
+  
 // ---------- SETUP ----------
 function setup() {
   render(`
