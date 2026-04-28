@@ -924,7 +924,7 @@ function setup() {
           </div>
 
           <label class="switch">
-            <input id="enableDisciple" type="checkbox">
+            <input id="enableJuez" type="checkbox">
             <span class="slider"></span>
           </label>
         </label>
@@ -1065,6 +1065,7 @@ function names() {
   const n = +document.getElementById("players").textContent;
   const imp = +document.getElementById("impostors").textContent;
 
+  gameState.enableJuez = document.getElementById("enableJuez").checked;
   gameState.enableAbel = document.getElementById("enableAbel").checked;
   gameState.enableDuo = document.getElementById("enableDuo").checked;
   gameState.enableZacarias = document.getElementById("enableZacarias").checked;
@@ -1217,8 +1218,8 @@ function reveal() {
   let j = gameState.jugadores[i];
 
   if (!j) {
-    if (gameState.enableDisciple) {
-      return pickDisciple();
+    if (gameState.enableJuez) {
+      return pickJuez();
     }
     return startRound();
   }
@@ -1470,8 +1471,8 @@ function nextReveal() {
   gameState.indexReveal++;
   
   if (gameState.indexReveal >= gameState.jugadores.length) {
-    if (gameState.enableDisciple) {
-      return pickDisciple();
+    if (gameState.enableJuez) {
+      return pickJuez();
     }
     return startRound();
   }
@@ -1492,8 +1493,8 @@ function toggleRoles() {
     : "rotate(180deg)";
 }
   
-function showDisciple() {
-  let d = gameState.disciple;
+function showJuez() {
+  let d = gameState.juez;
 
   render(`
     ${header()}
@@ -1516,7 +1517,7 @@ function showDisciple() {
   `);
 }
 
-function pickDisciple() {
+function pickJuez() {
   let candidatos = gameState.jugadores
     .filter(j => j.activo); // solo vivos
 
@@ -1524,7 +1525,7 @@ function pickDisciple() {
 
   elegido.especial = "juez";
 
-  gameState.disciple = elegido;
+  gameState.juez = elegido;
 
   render(`
     ${header()}
@@ -1536,7 +1537,7 @@ function pickDisciple() {
         Este jugador tendrá voto de desempate en caso de empate en las votaciones
       </p>
 
-      <button onclick="showDisciple()">
+      <button onclick="showJuez()">
         Revelar
       </button>
     </div>
