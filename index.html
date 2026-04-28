@@ -1221,6 +1221,9 @@ function reveal() {
     if (gameState.enableJuez) {
       return pickJuez();
     }
+    if (gameState.enableAbel) {
+      return pickAbel();
+    }
     return startRound();
   }
 
@@ -1492,6 +1495,63 @@ function toggleRoles() {
     ? "rotate(0deg)"
     : "rotate(180deg)";
 }
+
+function afterJudge() {
+  if (gameState.enableAbel) {
+    return pickAbel();
+  }
+  startRound();
+}
+
+function pickAbel() {
+  let candidatos = gameState.jugadores
+    .filter(j => j.activo && !j.especial);
+
+  let elegido = candidatos[Math.floor(Math.random() * candidatos.length)];
+
+  elegido.especial = "abel";
+  gameState.abel = elegido;
+
+  render(`
+    ${header()}
+
+    <div class="card" style="text-align:center;">
+      <h2>ROL ABEL</h2>
+
+      <p style="opacity:0.7;">
+        Este jugador podrá votar incluso después de ser eliminado
+      </p>
+
+      <button onclick="showAbel()">
+        Revelar
+      </button>
+    </div>
+  `);
+}
+
+function showAbel() {
+  let a = gameState.abel;
+
+  render(`
+    ${header()}
+
+    <div class="card" style="text-align:center;">
+      <h2 style="color:var(--gold);">Abel</h2>
+
+      <div style="font-size:52px; margin:20px 0;">
+        ${a.nombre}
+      </div>
+
+      <p style="opacity:0.7;">
+        Su voto contará incluso después de ser eliminado
+      </p>
+
+      <button onclick="startRound()">
+        Continuar
+      </button>
+    </div>
+  `);
+}
   
 function showJuez() {
   let d = gameState.juez;
@@ -1510,7 +1570,7 @@ function showJuez() {
         Este jugador tiene voto de desempate en caso de empate
       </p>
 
-      <button onclick="startRound()">
+      <button onclick="afterJudge()">
         Continuar
       </button>
     </div>
@@ -1609,7 +1669,9 @@ function getVoteCount() {
 }
 
 function vote() {
-  let activos = gameState.jugadores.filter(j => j.activo);
+  let activos = gameState.jugadores.filter(j => 
+    j.activo || j.especial === "abel"
+  );
   let voter = activos[gameState.voterIndex];
 
   const N = getVoteCount();
@@ -1629,7 +1691,8 @@ function vote() {
         Selecciona ${N} jugador${N > 1 ? "es" : ""}
       </p>
 
-      ${activos.map(j => j.nombre !== voter.nombre ? `
+      ${activos.map(j => 
+        (j.nombre !== voter.nombre && j.activo) ? `
         <div class="wa-player" onclick="toggleVote('${j.nombre}', this)">
           <span>${j.nombre}</span>
 
