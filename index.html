@@ -1356,13 +1356,34 @@ function startGame(n) {
     }
   }
 
+  // 🔗 ANANÍAS Y SAFIRA - Asignar parejas
+  let ananiasSafira = null;
+  if (gameState.enableDuo) {
+    let indice1 = Math.floor(Math.random() * n);
+    let indice2 = Math.floor(Math.random() * n);
+    
+    // Asegurar que sean diferentes
+    while (indice2 === indice1) {
+      indice2 = Math.floor(Math.random() * n);
+    }
+    
+    jugadores[indice1].duoPartner = jugadores[indice2].nombre;
+    jugadores[indice1].duoRole = "ananias";
+    
+    jugadores[indice2].duoPartner = jugadores[indice1].nombre;
+    jugadores[indice2].duoRole = "safira";
+    
+    ananiasSafira = { indice1, indice2 };
+  }
+
   gameState = {
     ...gameState,
     jugadores,
     palabra,
     categoria,
     ronda:1,
-    indexReveal:0
+    indexReveal:0,
+    ananiasSafira
   };
 
   gameState.votes = [];
@@ -1603,6 +1624,29 @@ function showWord() {
 
       <div style="opacity:0.7;">Categoría</div>
       <div>${gameState.categoria}</div>
+    `;
+  }
+
+  // 🔗 ANANÍAS Y SAFIRA - Mostrar compañero
+  if (j.duoPartner) {
+    companions = `
+      <div class="card" style="
+        margin-top:12px;
+        border:2px solid #8b6f47;
+        text-align:center;
+        background:rgba(139,111,71,0.1);
+      ">
+        <div style="display:flex; align-items:center; justify-content:center; gap:8px; margin-bottom:6px;">
+          <img src="iconos/ananias-y-safira.png" style="width:20px;">
+          <div style="opacity:0.7;">Tu compañero</div>
+        </div>
+        <div style="margin-top:6px; font-weight:bold; font-size:16px;">
+          ${j.duoPartner}
+        </div>
+        <div style="margin-top:4px; font-size:12px; opacity:0.6;">
+          (${j.duoRole === "ananias" ? "Eres Ananías" : "Eres Safira"})
+        </div>
+      </div>
     `;
   }
 
@@ -2064,6 +2108,19 @@ function confirmElimination() {
     return showGuardianSave(eliminados);
   }
 
+  // 🔗 ANANÍAS Y SAFIRA - Verificar parejas
+  if (gameState.enableDuo) {
+    eliminados.forEach(nombre => {
+      let j = gameState.jugadores.find(x => x.nombre === nombre);
+      if (j && j.duoPartner) {
+        // Si su compañero no está en la lista de eliminados, agregarlo
+        if (!eliminados.includes(j.duoPartner)) {
+          eliminados.push(j.duoPartner);
+        }
+      }
+    });
+  }
+
   // eliminar jugadores
   eliminados.forEach(nombre => {
     let j = gameState.jugadores.find(x => x.nombre === nombre);
@@ -2144,10 +2201,52 @@ function confirmGuardianSave(savedName) {
 }
 
 function showEliminationResults(eliminados, saved = null) {
+  // 🔗 ANANÍAS Y SAFIRA - Detectar parejas eliminadas
+  let parejaEliminada = null;
+  if (gameState.enableDuo) {
+    for (let i = 0; i < eliminados.length; i++) {
+      let j1 = gameState.jugadores.find(x => x.nombre === eliminados[i]);
+      if (j1 && j1.duoPartner) {
+        for (let k = i + 1; k < eliminados.length; k++) {
+          if (eliminados[k] === j1.duoPartner) {
+            parejaEliminada = { nombre1: eliminados[i], nombre2: j1.duoPartner, rol1: j1.duoRole, rol2: gameState.jugadores.find(x => x.nombre === j1.duoPartner).duoRole };
+            break;
+          }
+        }
+      }
+      if (parejaEliminada) break;
+    }
+  }
+
   render(`
     <h1>Resultados</h1>
 
     <div class="card">
+      ${parejaEliminada ? `
+        <div style="
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          gap:12px;
+          padding:16px;
+          background:rgba(139,111,71,0.2);
+          border:2px solid #8b6f47;
+          border-radius:14px;
+          margin-bottom:20px;
+          text-align:center;
+        ">
+          <img src="iconos/ananias-y-safira.png" style="width:28px; filter: drop-shadow(0 0 6px rgba(139,111,71,0.8));">
+          <div>
+            <div style="font-weight:bold; font-size:16px; margin-bottom:6px;">
+              Ananías y Safira han sido eliminados
+            </div>
+            <div style="font-size:14px; opacity:0.8;">
+              ${parejaEliminada.nombre1} y ${parejaEliminada.nombre2}
+            </div>
+          </div>
+        </div>
+      ` : ""}
+
       <h2>Jugadores eliminados</h2>
 
       ${eliminados.map(nombre => {
