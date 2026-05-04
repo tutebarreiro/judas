@@ -2043,6 +2043,28 @@ function toggleEliminate(name, el) {
   }
 }
 
+function confirmElimination() {
+  let eliminados = gameState.toEliminate;
+
+  if (!eliminados || eliminados.length === 0) {
+    return alert("Selecciona jugadores");
+  }
+
+  // Verificar si Ángel Guardián puede salvar
+  if (gameState.enableGuardian && !gameState.guardianUsed && gameState.guardian.activo) {
+    return showGuardianSave(eliminados);
+  }
+
+  // eliminar jugadores
+  eliminados.forEach(nombre => {
+    let j = gameState.jugadores.find(x => x.nombre === nombre);
+    if (j) j.activo = false;
+  });
+
+  // mostrar resultado con roles
+  showEliminationResults(eliminados);
+}
+
 function showGuardianSave(eliminados) {
   render(`
     <h1>Ángel Guardián</h1>
