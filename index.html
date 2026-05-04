@@ -1234,8 +1234,8 @@ function names() {
   if (!imp || imp < 1) return alert("Debe haber al menos 1 impostor");
   if (imp >= n) return alert("Debe haber menos impostores que jugadores");
 
-  if (gameState.enableDuo && n < 6) {
-    return alert("Ananías y Safira requiere al menos 6 jugadores");
+  if (gameState.enableDuo && n < 10) {
+    return alert("Ananías y Safira requiere al menos 10 jugadores");
   }
 
   gameState.numImpostors = imp;
