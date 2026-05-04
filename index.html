@@ -1662,6 +1662,9 @@ function afterJudge() {
   if (gameState.enableAbel) {
     return pickAbel();
   }
+  if (gameState.enableGuardian) {
+    return pickGuardian();
+  }
   startRound();
 }
 
@@ -2087,13 +2090,23 @@ function showGuardianSave(eliminados) {
         `).join("")}
       </div>
 
-      <button onclick="confirmGuardianSave(null)">No salvar</button>
-      <button id="saveBtn" onclick="confirmGuardianSave(gameState.selectedToSave)" disabled style="margin-left:10px;">Salvar seleccionado</button>
+      <div style="display:flex; gap:12px; justify-content:center;">
+        <button onclick="confirmGuardianSave(null)" style="flex:1;">No salvar</button>
+        <button id="saveBtn" onclick="confirmGuardianSave(gameState.selectedToSave)" disabled style="flex:1;">Salvar seleccionado</button>
+      </div>
     </div>
   `);
 }
 
 function selectToSave(name, el) {
+  // Si ya está seleccionado, deseleccionar
+  if (el.classList.contains('selected')) {
+    el.classList.remove('selected');
+    gameState.selectedToSave = null;
+    document.getElementById('saveBtn').disabled = true;
+    return;
+  }
+  
   // Remover selección previa
   document.querySelectorAll('.wa-player').forEach(p => p.classList.remove('selected'));
   
