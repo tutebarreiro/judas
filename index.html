@@ -1639,6 +1639,12 @@ function nextReveal() {
     if (gameState.enableJuez) {
       return pickJuez();
     }
+    if (gameState.enableAbel) {
+      return pickAbel();
+    }
+    if (gameState.enableGuardian) {
+      return pickGuardian();
+    }
     return startRound();
   }
   
