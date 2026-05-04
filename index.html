@@ -2080,6 +2080,9 @@ function showGuardianSave(eliminados) {
         ${eliminados.map(nombre => `
           <div class="wa-player" onclick="selectToSave('${nombre}', this)">
             <span>${nombre}</span>
+            <div class="wa-switch">
+              <div class="wa-knob"></div>
+            </div>
           </div>
         `).join("")}
       </div>
