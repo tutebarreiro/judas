@@ -1383,6 +1383,9 @@ function reveal() {
     if (gameState.enableAbel) {
       return pickAbel();
     }
+    if (gameState.enableGuardian) {
+      return pickGuardian();
+    }
     return startRound();
   }
 
@@ -1708,6 +1711,67 @@ function showAbel() {
         Su voto contará incluso después de ser eliminado
       </p>
 
+      <button onclick="afterAbel()">
+        Continuar
+      </button>
+    </div>
+  `);
+}
+
+function afterAbel() {
+  if (gameState.enableGuardian) {
+    return pickGuardian();
+  }
+  startRound();
+}
+
+function pickGuardian() {
+  let candidatos = gameState.jugadores
+    .filter(j => j.activo && !j.especial);
+
+  let elegido = candidatos[Math.floor(Math.random() * candidatos.length)];
+
+  elegido.especial = "guardian";
+  gameState.guardian = elegido;
+  gameState.guardianUsed = false;
+
+  render(`
+    ${header()}
+
+    <div class="card" style="text-align:center;">
+      <h2 style="display:flex; align-items:center; justify-content:center; gap:10px; letter-spacing:1px;">
+        <img src="iconos/escudo.png" style="width:28px; filter: drop-shadow(0 0 6px rgba(212,175,55,0.6));">
+        ÁNGEL GUARDIÁN
+      </h2>
+      
+      <p style="opacity:0.7;">
+        Este jugador puede salvar a uno de los eliminados una vez por partida
+      </p>
+
+      <button onclick="showGuardian()">
+        Revelar
+      </button>
+    </div>
+  `);
+}
+
+function showGuardian() {
+  let g = gameState.guardian;
+
+  render(`
+    ${header()}
+
+    <div class="card" style="text-align:center;">
+      <h2 style="color:var(--gold);">Ángel Guardián</h2>
+
+      <div style="font-size:52px; margin:20px 0;">
+        ${g.nombre}
+      </div>
+
+      <p style="opacity:0.7;">
+        Puede salvar a un jugador de ser eliminado una vez por partida
+      </p>
+
       <button onclick="startRound()">
         Continuar
       </button>
@@ -1979,20 +2043,63 @@ function toggleEliminate(name, el) {
   }
 }
 
-function confirmElimination() {
-  let eliminados = gameState.toEliminate;
+function showGuardianSave(eliminados) {
+  render(`
+    <h1>Ángel Guardián</h1>
 
-  if (!eliminados || eliminados.length === 0) {
-    return alert("Selecciona jugadores");
+    <div class="card">
+      <h2>¿Quieres salvar a alguien?</h2>
+
+      <p style="opacity:0.7; margin-bottom:20px;">
+        El Ángel Guardián puede salvar a uno de los eliminados esta ronda.
+      </p>
+
+      <div style="margin-bottom:20px;">
+        ${eliminados.map(nombre => `
+          <div class="wa-player" onclick="selectToSave('${nombre}', this)">
+            <span>${nombre}</span>
+          </div>
+        `).join("")}
+      </div>
+
+      <button onclick="confirmGuardianSave(null)">No salvar</button>
+      <button id="saveBtn" onclick="confirmGuardianSave(gameState.selectedToSave)" disabled style="margin-left:10px;">Salvar seleccionado</button>
+    </div>
+  `);
+}
+
+function selectToSave(name, el) {
+  // Remover selección previa
+  document.querySelectorAll('.wa-player').forEach(p => p.classList.remove('selected'));
+  
+  // Seleccionar este
+  el.classList.add('selected');
+  gameState.selectedToSave = name;
+  
+  // Habilitar botón
+  document.getElementById('saveBtn').disabled = false;
+}
+
+function confirmGuardianSave(savedName) {
+  let eliminados = gameState.toEliminate;
+  
+  if (savedName) {
+    // Remover el salvado de eliminados
+    eliminados = eliminados.filter(n => n !== savedName);
+    gameState.guardianUsed = true;
   }
 
-  // eliminar jugadores
+  // eliminar jugadores restantes
   eliminados.forEach(nombre => {
     let j = gameState.jugadores.find(x => x.nombre === nombre);
     if (j) j.activo = false;
   });
 
   // mostrar resultado con roles
+  showEliminationResults(eliminados, savedName);
+}
+
+function showEliminationResults(eliminados, saved = null) {
   render(`
     <h1>Resultados</h1>
 
@@ -2012,6 +2119,14 @@ function confirmElimination() {
           </div>
         `;
       }).join("")}
+
+      ${saved ? `
+        <h2>Jugador salvado</h2>
+        <div class="player" style="background:#1a2a1a;">
+          <span>${saved}</span>
+          <b>SALVADO</b>
+        </div>
+      ` : ""}
 
       <button onclick="endElimination()">
         Continuar
