@@ -518,11 +518,24 @@ button {
   background: rgba(20,20,20,0.9);
   backdrop-filter: blur(10px);
   border-radius: 22px;
-  padding: 30px 25px;
+  padding: 24px 18px;
   text-align:center;
   width:90%;
   max-width:360px;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
   animation: winPop 0.5s ease;
+}
+
+.end-screen {
+  overflow: auto;
+  padding: 18px 0;
+}
+
+.end-card button {
+  margin-top: 14px;
+  width: 100%;
+  flex-shrink: 0;
 }
 
 /* ICONO */
