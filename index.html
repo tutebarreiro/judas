@@ -254,8 +254,8 @@ button {
 }
 
 .logo-final img {
-  width: 150px;
-  margin-bottom: 10px;
+  width: 80px;
+  margin-bottom: 8px;
 
   filter: drop-shadow(0 0 15px rgba(212,175,55,0.6));
   animation: pulseSmooth 3.5s ease-in-out infinite;
@@ -497,9 +497,12 @@ button {
   position: fixed;
   inset: 0;
   display:flex;
+  flex-direction: column;
   align-items:center;
-  justify-content:center;
-  overflow:hidden;
+  justify-content:flex-start;
+  overflow-y:auto;
+  overflow-x:hidden;
+  padding: 20px 0 40px 0;
 }
 
 /* FONDO DINÁMICO */
@@ -518,13 +521,12 @@ button {
   background: rgba(20,20,20,0.9);
   backdrop-filter: blur(10px);
   border-radius: 22px;
-  padding: 24px 18px;
+  padding: 20px 16px;
   text-align:center;
   width:90%;
   max-width:360px;
-  max-height: calc(100vh - 40px);
-  overflow-y: auto;
   animation: winPop 0.5s ease;
+  flex-shrink: 0;
 }
 
 .end-screen {
@@ -540,20 +542,20 @@ button {
 
 /* ICONO */
 .end-card .icon img {
-  width:80px;
-  margin-bottom:-5px;
+  width:50px;
+  margin-bottom:10px;
 }
 
 /* TITULO */
 .title {
-  font-size:26px;
-  margin:10px 0;
+  font-size:20px;
+  margin:8px 0;
 }
 
 /* SUB */
 .subtitle {
   opacity:0.7;
-  margin-bottom:20px;
+  margin-bottom:12px;
 }
 
 /* GLOW */
@@ -2490,9 +2492,9 @@ function showEndScreen(winner) {
         </p>
 
         <div style="
-          margin-top:16px;
+          margin-top:12px;
           text-align:left;
-          max-height:280px;
+          max-height:160px;
           overflow-y:auto;
           padding-right:8px;
         ">
@@ -2511,11 +2513,11 @@ function showEndScreen(winner) {
               display:flex;
               justify-content:space-between;
               align-items:center;
-              padding:10px 12px;
-              border-radius:10px;
-              margin-bottom:6px;
+              padding:6px 8px;
+              border-radius:8px;
+              margin-bottom:4px;
               background:rgba(255,255,255,0.04);
-              font-size:14px;
+              font-size:12px;
 
               opacity:0;
               animation: fade 0.5s ease forwards;
@@ -2542,19 +2544,19 @@ function showEndScreen(winner) {
         </div>
 
         <div style="
-          margin-top:14px;
-          padding:10px;
-          border-radius:12px;
+          margin-top:10px;
+          padding:8px;
+          border-radius:10px;
           background:rgba(0,0,0,0.25);
           border:1px solid rgba(255,255,255,0.08);
         ">
 
-          <div style="font-size:12px; opacity:0.6; margin-bottom:4px;">
+          <div style="font-size:11px; opacity:0.6; margin-bottom:3px;">
             IMPOSTOR${impostores.length > 1 ? "ES" : ""}
           </div>
 
           <div style="
-            font-size:16px;
+            font-size:14px;
             font-weight:bold;
             letter-spacing:1px;
             color:${isInnocents ? "#ff6b6b" : "var(--gold)"};
