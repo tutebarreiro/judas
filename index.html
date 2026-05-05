@@ -1515,7 +1515,7 @@ function showWord() {
       .filter(x => x.rol === "impostor" && x.nombre !== j.nombre)
       .map(x => x.nombre);
 
-    // 👇 BLOQUE SEPARADO DEL COMPAÑERO
+  // 👇 BLOQUE SEPARADO DEL COMPAÑERO
     if (otrosImpostores.length > 0) {
       companions = `
         <div class="card" style="
@@ -1526,6 +1526,29 @@ function showWord() {
           <div style="opacity:0.7;">🤝 Tu compañero impostor es</div>
           <div style="margin-top:6px; font-weight:bold;">
             ${otrosImpostores.join(", ")}
+          </div>
+        </div>
+      `;
+    }
+
+    // 🔗 ANANÍAS Y SAFIRA - Mostrar compañero (incluso si es impostor)
+    if (j.duoPartner) {
+      companions += `
+        <div class="card" style="
+          margin-top:12px;
+          border:2px solid #8b6f47;
+          text-align:center;
+          background:rgba(139,111,71,0.1);
+        ">
+          <div style="display:flex; align-items:center; justify-content:center; gap:8px; margin-bottom:6px;">
+            <img src="iconos/ananias-y-safira.png" style="width:20px;">
+            <div style="opacity:0.7;">Tu compañero</div>
+          </div>
+          <div style="margin-top:6px; font-weight:bold; font-size:16px;">
+            ${j.duoPartner}
+          </div>
+          <div style="margin-top:4px; font-size:12px; opacity:0.6;">
+            (${j.duoRole === "ananias" ? "Eres Ananías" : "Eres Safira"})
           </div>
         </div>
       `;
@@ -1627,8 +1650,8 @@ function showWord() {
     `;
   }
 
-  // 🔗 ANANÍAS Y SAFIRA - Mostrar compañero
-  if (j.duoPartner) {
+  // 🔗 ANANÍAS Y SAFIRA - Mostrar compañero (solo para no impostores)
+  if (j.duoPartner && j.rol !== "impostor") {
     companions = `
       <div class="card" style="
         margin-top:12px;
@@ -2495,6 +2518,7 @@ function showEndScreen(winner) {
               ">
                 ${j.rol.toUpperCase()}
                 ${j.especial ? " • " + j.especial.toUpperCase() : ""}
+                ${j.duoRole ? " • " + j.duoRole.toUpperCase() : ""}
               </span>
 
             </div>
