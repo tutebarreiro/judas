@@ -748,10 +748,10 @@ function header(action = null) {
 function menu() {
   render(`
     ${header()}
-    <div class="card">
+    <div class="card" style="width: calc(100% - 32px); max-width: 400px;">
       <button onclick="setup()" style="display:flex; align-items:center; justify-content:center; gap:10px; font-size:20px;">
         <img src="iconos/nueva-partida.png" style="width:35px;">
-        Nueva partidaaa
+        Nueva partida
       </button>
 
       <button onclick="modes()" style="display:flex; align-items:center; justify-content:center; gap:10px; font-size:20px;">
