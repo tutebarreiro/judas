@@ -76,7 +76,7 @@ h2 {
 .card {
   background: var(--card);
   border-radius: 18px;
-  padding: 20px;
+  padding: 0px;
   margin-top: 16px;
   box-shadow: 0 0 20px rgba(212,175,55,0.1);
 }
@@ -748,7 +748,7 @@ function header(action = null) {
 function menu() {
   render(`
     ${header()}
-    <div class="card" style="width: 110%; max-width: 400px; margin: 0 auto;">
+    <div class="card" style="width: 100%; max-width: 400px; margin: 0 auto;">
       
       <button onclick="setup()" style="
         width: 100%;
