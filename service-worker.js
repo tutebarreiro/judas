@@ -1,4 +1,4 @@
-const CACHE_NAME = "mi-app-v2"; // 👈 cambiá esto cuando actualices
+const CACHE_NAME = "mi-app-v3"; // 👈 cambiá esto cuando actualices
 
 self.addEventListener("install", event => {
   self.skipWaiting(); // 👈 fuerza instalar ya
