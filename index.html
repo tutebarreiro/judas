@@ -2569,6 +2569,10 @@ function showEndScreen(winner) {
         </div>
         </div>
 
+        <button onclick="replayWithSamePlayers()" style="margin-bottom:10px;">
+          Volver a jugar con los mismos jugadores
+        </button>
+
         <button onclick="resetLayoutAndMenu()">
           Volver al inicio
         </button>
@@ -2576,6 +2580,66 @@ function showEndScreen(winner) {
       </div>
     </div>
   `);
+}
+  
+function replayWithSamePlayers() {
+  if (!gameState.jugadores || !gameState.jugadores.length) {
+    return resetLayoutAndMenu();
+  }
+
+  const n = gameState.jugadores.length;
+  const jugadores = gameState.jugadores.map(({ nombre }) => ({
+    nombre,
+    rol: "inocente",
+    especial: null,
+    activo: true
+  }));
+
+  const categorias = Object.keys(db);
+  const categoria = categorias[Math.floor(Math.random() * categorias.length)];
+  const palabra = db[categoria][Math.floor(Math.random() * db[categoria].length)];
+
+  let impostores = [];
+  let numImp = gameState.numImpostors || 1;
+
+  while (impostores.length < numImp) {
+    let r = Math.floor(Math.random() * n);
+    if (!impostores.includes(r)) {
+      jugadores[r].rol = "impostor";
+      impostores.push(r);
+    }
+  }
+
+  let ananiasSafira = null;
+  if (gameState.enableDuo) {
+    let indice1 = Math.floor(Math.random() * n);
+    let indice2 = Math.floor(Math.random() * n);
+    while (indice2 === indice1) {
+      indice2 = Math.floor(Math.random() * n);
+    }
+
+    jugadores[indice1].duoPartner = jugadores[indice2].nombre;
+    jugadores[indice1].duoRole = "ananias";
+    jugadores[indice2].duoPartner = jugadores[indice1].nombre;
+    jugadores[indice2].duoRole = "safira";
+
+    ananiasSafira = { indice1, indice2 };
+  }
+
+  gameState = {
+    ...gameState,
+    jugadores,
+    palabra,
+    categoria,
+    ronda: 1,
+    indexReveal: 0,
+    ananiasSafira
+  };
+
+  gameState.votes = [];
+  gameState.voterIndex = 0;
+
+  reveal();
 }
   
 function resetLayoutAndMenu() {
