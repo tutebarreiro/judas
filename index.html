@@ -756,7 +756,7 @@ function menu() {
     ">
 
       <!-- CONTENIDO -->
-      <div style="position: relative; z-index: 1;">
+      <div style="position: relative; z-index: 1; padding-bottom: 140px;">
     
     ${header()}
     <div class="card" style="width: 100%; max-width: 400px; margin: 0 auto;">
@@ -797,18 +797,21 @@ function menu() {
       </button>
      
     </div>
+      </div>
 
     <div style="
-      position: absolute;
-      bottom: 20px;
-      left: 0;
-      right: 0;
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
       display: flex;
       justify-content: center;
       z-index: 1;
       pointer-events: none;
+      width: 100%;
+      padding: 0 16px;
     ">
-      <img src="iconos/fe-en-juego-logo-blanco.png" style="width: 80%; max-width: 320px; height:auto; opacity:0.95;">
+      <img src="iconos/fe-en-juego-logo-blanco.png" style="width: 100%; max-width: 320px; height:auto; opacity:0.95;">
     </div>
   `);
 }
