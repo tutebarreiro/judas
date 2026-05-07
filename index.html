@@ -760,10 +760,6 @@ function menu() {
     
     ${header()}
     <div class="card" style="width: 100%; max-width: 400px; margin: 0 auto;">
-      <div style="display:flex; justify-content:center; margin-bottom:16px;">
-        <img src="iconos/fe-en-juego-logo-blanco.png" style="width: 80%; max-width: 320px; height:auto;">
-      </div>
-      
       <button onclick="setup()" style="
         width: 100%;
         display:flex;
@@ -800,6 +796,19 @@ function menu() {
         Roles especiales
       </button>
      
+    </div>
+
+    <div style="
+      position: absolute;
+      bottom: 20px;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      z-index: 1;
+      pointer-events: none;
+    ">
+      <img src="iconos/fe-en-juego-logo-blanco.png" style="width: 80%; max-width: 320px; height:auto; opacity:0.95;">
     </div>
   `);
 }
