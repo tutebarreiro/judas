@@ -707,7 +707,7 @@ function splash() {
   `);
 
   setTimeout(() => {
-    document.getElementById("app").style.padding = "50px 1px"; // 👈 lo devolvés
+    document.getElementById("app").style.padding = "20px 1px"; // 👈 lo devolvés
     menu();
   }, 2000);
 }
@@ -733,7 +733,7 @@ function header(action = null) {
           display:flex;
           align-items:center;
           justify-content:center;
-          padding:0;
+          padding:20px;
         ">
           <img src="iconos/back.png" style="width:40px;">
         </button>
@@ -2703,7 +2703,7 @@ function replayWithSamePlayers() {
 }
   
 function resetLayoutAndMenu() {
-  document.getElementById("app").style.padding = "50px 1px";
+  document.getElementById("app").style.padding = "20px 1px";
   menu();
 }
   
