@@ -755,26 +755,14 @@ function menu() {
       overflow: hidden;
     ">
 
-      <!-- LOGO FONDO -->
-      <img 
-        src="iconos/fe-en-juego-logo-blanco.png"
-        style="
-          position: fixed;
-          bottom: 20px;
-          left: 50%;
-          transform: translateX(-50%);
-          width: 70%;
-          opacity: 0.95;
-          z-index: 0;
-          pointer-events: none;
-        "
-      >
-
       <!-- CONTENIDO -->
       <div style="position: relative; z-index: 1;">
     
     ${header()}
     <div class="card" style="width: 100%; max-width: 400px; margin: 0 auto;">
+      <div style="display:flex; justify-content:center; margin-bottom:16px;">
+        <img src="iconos/fe-en-juego-logo-blanco.png" style="width: 80%; max-width: 320px; height:auto;">
+      </div>
       
       <button onclick="setup()" style="
         width: 100%;
